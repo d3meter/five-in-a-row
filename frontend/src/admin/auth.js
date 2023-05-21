@@ -37,7 +37,7 @@ export const registration = function (email, password) {
  return createUserWithEmailAndPassword(auth, email, password)
    .then((userCredential) => {
      const user = userCredential.user;
-     console.log(user);
+     console.log(user);     
      return user;
    })
    .catch((error) => {
