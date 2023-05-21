@@ -6,6 +6,7 @@ import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import LoginPlayer1 from "./LoginPlayer1";
 import LoginPlayer2 from "./LoginPlayer2";
 import { login, logOut } from "../admin/auth";
+import UserContext from "../admin/UserContext";
 
 function Header() {
   const [showDropdownLeft, setShowDropdownLeft] = useState(false);
@@ -33,15 +34,32 @@ function Header() {
     logOut().then(() => setUser2(null));
   };
 
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        if (user1 && user1.email === user.email) {
+          setUser1(user);
+        }
+        if (user2 && user2.email === user.email) {
+          setUser2(user);
+        }
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [user1, user2]);
+
   return (
-    <>
+    <UserContext.Provider value={{ user1, user2 }}>
       <div className="Header">
         <div className="section-left">
           <button onClick={() => setShowDropdownLeft((oldValue) => !oldValue)}>
             <h1>Player 1 {user1 && `(${user1.email})`}</h1>
           </button>
         </div>
-        <div className="section-mid">menu</div>
         <div className="section-right">
           <button onClick={() => setShowDropdownRight((oldValue) => !oldValue)}>
             <h1>Player 2 {user2 && `(${user2.email})`}</h1>
@@ -72,7 +90,7 @@ function Header() {
           />
         </nav>
       </div>
-    </>
+    </UserContext.Provider>
   );
 }
 
