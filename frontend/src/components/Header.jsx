@@ -1,79 +1,63 @@
 import React, { useState, useEffect } from "react";
 import "./css/Header.css";
-import { logOut } from "../admin/auth";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import LoginPlayer1 from "./LoginPlayer1";
 import LoginPlayer2 from "./LoginPlayer2";
+import { login, logOut } from "../admin/auth";
 
 function Header() {
-  const [logState, setLogState] = useState("logged out");
-  const [userLoggedin, setUserLoggedin] = useState("");
   const [showDropdownLeft, setShowDropdownLeft] = useState(false);
   const [showDropdownRight, setShowDropdownRight] = useState(false);
+  const [user1, setUser1] = useState(null);
+  const [user2, setUser2] = useState(null);
 
   showDropdownLeft || showDropdownRight
     ? disableBodyScroll(document)
     : enableBodyScroll(document);
 
-  async function signOut() {
-    await logOut();
-  }
+  const handleLoginPlayer1 = (email, password) => {
+    login(email, password).then((userData1) => setUser1(userData1));
+  };
 
-  useEffect(() => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setLogState(`logged in`);
-        setUserLoggedin(user.email);
-      } else {
-        setLogState(`logged out`);
-        setUserLoggedin("");
-      }
-    });
-  }, []);
+  const handleLoginPlayer2 = (email, password) => {
+    login(email, password).then((userData2) => setUser2(userData2));
+  };
+
+  const handleLogoutPlayer1 = () => {
+    logOut().then(() => setUser1(null));
+  };
+
+  const handleLogoutPlayer2 = () => {
+    logOut().then(() => setUser2(null));
+  };
 
   return (
     <>
       <div className="Header">
         <div className="section-left">
           <button onClick={() => setShowDropdownLeft((oldValue) => !oldValue)}>
-            <h1>Player 1</h1>
+            <h1>Player 1 {user1 && `(${user1.email})`}</h1>
           </button>
         </div>
         <div className="section-mid">menu</div>
         <div className="section-right">
           <button onClick={() => setShowDropdownRight((oldValue) => !oldValue)}>
-            <h1>Player 2</h1>
+            <h1>Player 2 {user2 && `(${user2.email})`}</h1>
           </button>
         </div>
-        {/*       <div className="header-section3">
-        {logState === "logged in" ? (
-          <>
-            <span className="material-icons md-36">verified_user</span>
-            <h2>{userLoggedin}</h2>
-            <button className="header-btn" onClick={signOut}>
-              <span className="material-icons md-48">logout</span>
-              <p>Logout</p>
-            </button>
-          </>
-        ) : (
-          <>
-            <Link className="header-btn" to="/login">
-              <span className="material-icons md-48">login</span>
-              <p>Login</p>
-            </Link>
-          </>
-        )}
-      </div> */}
       </div>
       <div
         className="dropdown-menu dd-menu-left"
         style={{ display: showDropdownLeft ? "flex" : "none" }}
       >
         <nav className="menu-list">
-          <LoginPlayer1 />
+          <LoginPlayer1
+            user1={user1}
+            onLoginPlayer1={handleLoginPlayer1}
+            onLogoutPlayer1={handleLogoutPlayer1}
+          />
         </nav>
       </div>
       <div
@@ -81,7 +65,11 @@ function Header() {
         style={{ display: showDropdownRight ? "flex" : "none" }}
       >
         <nav className="menu-list">
-          <LoginPlayer2 />
+          <LoginPlayer2
+            user2={user2}
+            onLoginPlayer2={handleLoginPlayer2}
+            onLogoutPlayer2={handleLogoutPlayer2}
+          />
         </nav>
       </div>
     </>

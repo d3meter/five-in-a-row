@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./css/Login.css";
 import { Link } from "react-router-dom";
 import {
@@ -11,30 +11,20 @@ import {
   Button,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material/";
-import { login } from "../admin/auth";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-function LoginPlayer1() {
-  const [showPassword, setShowPassword] = useState(false);
+function LoginPlayer2({user2, onLoginPlayer2, onLogoutPlayer2}) {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [user2, setUser2] = useState(null);
-  const [logState, setLogState] = useState("logged out");
+  const [showPassword, setShowPassword] = useState(false);
+  const passwordRef = useRef(null);
 
-  useEffect(() => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user2) => {
-      if (user2) {
-        setLogState(`logged in`);
-      } else {
-        setLogState(`logged out`);
-      }
-    });
-  }, []);
+  const handleLogout = () => {
+    onLogoutPlayer2();
+  };
 
   const handleLog = (event) => {
     event.preventDefault();
-    login(email, password).then((userData2) => setUser2(userData2));
+    const password = passwordRef.current.value;
+    onLoginPlayer2(email, password);
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -47,7 +37,12 @@ function LoginPlayer1() {
     <div className="Login">
       <h5>Login</h5>
       {!!user2 ? (
-        <p>Login successful with {user2.email} </p>
+        <form>
+          <p>Login successful with {user2.email} </p>
+          <FormControl fullWidth>
+            <Button onClick={() => handleLogout("user1")}>Logout</Button>
+          </FormControl>
+        </form>
       ) : (
         <form>
           <FormControl fullWidth variant="outlined">
@@ -65,7 +60,7 @@ function LoginPlayer1() {
             <OutlinedInput
               id="outlined-adornment-password"
               type={showPassword ? "text" : "password"}
-              onChange={(event) => setPassword(event.target.value)}
+              inputRef={passwordRef}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -92,4 +87,4 @@ function LoginPlayer1() {
   );
 }
 
-export default LoginPlayer1;
+export default LoginPlayer2;
