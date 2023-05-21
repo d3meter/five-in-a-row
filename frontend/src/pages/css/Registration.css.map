@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","file":"Registration.css"}
+{"version":3,"sources":["Registration.scss","Registration.css"],"names":[],"mappings":"AAAA;EACC,WAAA;EACA,kBAAA;EACA,YAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,uBAAA;EACA,iBAAA;EACA,uBAAA;ACCD;ADAC;EACC,UAAA;EACA,YAAA;EACA,kBAAA;ACEF;ADDE;EACC,WAAA;EACA,YAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,uBAAA;ACGH","file":"Registration.css"}

@@ -50,6 +50,7 @@ function Registration() {
 
   return (
     <div className="Registration">
+      <div className="container">
       <h1>Registration</h1>
       <h2>Please add your email and a password here.</h2>
       {!finished ? (
@@ -112,6 +113,12 @@ function Registration() {
             <Button onClick={checkData} variant="outlined">
               Registration
             </Button>
+            <Link to="/">
+            <Button>
+              <span className="material-icons">arrow_back_ios</span>
+              <p>Back to the home page</p>
+            </Button>
+          </Link>
           </FormControl>
           <p className="error-text" style={{ display: showErrorDialog ? "block" : "none" }}>Wrong email or password! <br /> Password must be at least 6 characters!</p>
         </form>
@@ -120,12 +127,13 @@ function Registration() {
           <p>Registration successful</p>
           <Link to="/">
             <Button>
-              <span class="material-icons">arrow_back_ios</span>
+              <span className="material-icons">arrow_back_ios</span>
               <p>Back to the home page</p>
             </Button>
           </Link>
         </>
       )}
+      </div>
     </div>
   );
 }
