@@ -1,6 +1,6 @@
 .Main {
  width: 100%;
- min-width: inherit;
+ max-width: 1200px;
  height: auto;
  display: flex;
  flex-direction: column;
@@ -8,4 +8,8 @@
  justify-content: center;
  padding-top: 74px;
  color: white;
+ margin-inline: auto;
+ .container {
+  width: 100%;
+ }
 }
