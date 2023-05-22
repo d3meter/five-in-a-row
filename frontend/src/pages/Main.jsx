@@ -4,22 +4,42 @@ import { Link } from "react-router-dom";
 import Login from "../components/Login";
 import { login, logOut } from "../admin/auth";
 import PlayerConfig from "../components/PlayerConfig";
+import {
+  player1Data,
+  player2Data,
+  boardSize,
+  updatePlayer1Data,
+  updatePlayer2Data,
+  updateBoardSize,
+} from "../admin/gameData";
 
 function Main() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoggedOut, setIsLoggedOut] = useState(false);
-  const [sectionHeight, setsectionHeight] = useState("auto");
 
   const [user1, setUser1] = useState(null);
   const [user2, setUser2] = useState(null);
 
-  const [nameOfUser1, setNameOfUser1] = useState("player1");
-  const [colorOfUser1, setColorOfUser1] = useState("red");
-  const [figureOfUser1, setFigureOfUser1] = useState("circle");
+  const [nameOfUser1, setNameOfUser1] = useState("");
+  const [colorOfUser1, setColorOfUser1] = useState("");
+  const [figureOfUser1, setFigureOfUser1] = useState("");
+  const [isReadyUser1, setIsReadyUser1] = useState(false);
 
-  const [nameOfUser2, setNameOfUser2] = useState("player2");
-  const [colorOfUser2, setColorOfUser2] = useState("blue");
-  const [figureOfUser2, setFigureOfUser2] = useState("x");
+  const [nameOfUser2, setNameOfUser2] = useState("");
+  const [colorOfUser2, setColorOfUser2] = useState("");
+  const [figureOfUser2, setFigureOfUser2] = useState("");
+  const [isReadyUser2, setIsReadyUser2] = useState(false);
+
+  const [selectedBoardSize, setSelectedBoardSize] = useState(boardSize);
+
+  useEffect(() => {
+    setNameOfUser1(player1Data.name);
+    setColorOfUser1(player1Data.color);
+    setFigureOfUser1(player1Data.figure);
+    setNameOfUser2(player2Data.name);
+    setColorOfUser2(player2Data.color);
+    setFigureOfUser2(player2Data.figure);
+  }, []);
 
   const onNameChangeP1 = (value) => {
     setNameOfUser1(value);
@@ -45,19 +65,21 @@ function Main() {
     setFigureOfUser2(value);
   };
 
+  const handleStatusChangeP1 = () => {
+    setIsReadyUser1((prevState) => !prevState);
+  };
+
+  const handleStatusChangeP2 = () => {
+    setIsReadyUser2((prevState) => !prevState);
+  };
+
   useEffect(() => {
     setIsLoggedOut(!(user1 && user2));
   }, [user1, user2]);
 
   useEffect(() => {
-    if (!isLoggedOut) {
-      setTimeout(() => {
-        setsectionHeight("0");
-      }, 1000);
-    } else {
-      setsectionHeight("auto");
-    }
-  }, [isLoggedOut]);
+    setIsDisabled(!(isReadyUser1 && isReadyUser2));
+  }, [isReadyUser1, isReadyUser2]);
 
   const handleLoginPlayer1 = (email, password) => {
     login(email, password).then((userData1) => setUser1(userData1));
@@ -75,18 +97,31 @@ function Main() {
     logOut(user2).then(() => setUser2(null));
   };
 
-  useEffect(() => {
-    setIsDisabled(!user1 || !user2);
-  }, [user1, user2]);
+  const handleGoButtonClick = () => {
+    const player1Data = {
+      name: nameOfUser1,
+      color: colorOfUser1,
+      figure: figureOfUser1,
+    };
+
+    const player2Data = {
+      name: nameOfUser2,
+      color: colorOfUser2,
+      figure: figureOfUser2,
+    };
+
+    const boardSize = selectedBoardSize;
+
+    updatePlayer1Data(player1Data);
+    updatePlayer2Data(player2Data);
+    updateBoardSize(boardSize);
+  };
 
   return (
     <div className="Main">
       <div className="container">
         {isLoggedOut && (
-          <div
-            className={`row ${!isLoggedOut ? "hide" : ""}`}
-            style={{ height: sectionHeight }}
-          >
+          <div className={`row ${!isLoggedOut ? "hide" : ""}`}>
             <div className="col text-center">
               <h2>Five in a Row (for 2 players)</h2>
               <span>In order to play, both players need to be logged in.</span>
@@ -104,16 +139,18 @@ function Main() {
                 <p>{figureOfUser1}</p>
                 <PlayerConfig
                   user={user1}
+                  nameOfUser={nameOfUser1}
+                  colorOfUser={colorOfUser1}
+                  figureOfUser={figureOfUser1}
                   onLogoutPlayer={handleLogoutPlayer1}
                   onNameChange={onNameChangeP1}
                   onColorChange={onColorChangeP1}
                   onFigureChange={onFigureChangeP1}
                 />
+                <button onClick={handleStatusChangeP1}>Ready</button>
               </>
             ) : (
-              <Login
-                onLoginPlayer={handleLoginPlayer1}
-              />
+              <Login onLoginPlayer={handleLoginPlayer1} />
             )}
           </div>
           <div className="col-md-5 col-lg-5">
@@ -125,11 +162,15 @@ function Main() {
                 <p>{figureOfUser2}</p>
                 <PlayerConfig
                   user={user2}
+                  nameOfUser={nameOfUser2}
+                  colorOfUser={colorOfUser2}
+                  figureOfUser={figureOfUser2}
                   onLogoutPlayer={handleLogoutPlayer2}
                   onNameChange={onNameChangeP2}
                   onColorChange={onColorChangeP2}
                   onFigureChange={onFigureChangeP2}
                 />
+                <button onClick={handleStatusChangeP2}>Ready</button>
               </>
             ) : (
               <Login onLoginPlayer={handleLoginPlayer2} />
@@ -137,16 +178,35 @@ function Main() {
           </div>
         </div>
         <hr />
-        {isLoggedOut && (
+        {isLoggedOut ? (
           <div
             className={`row text-center collapse-section ${
               !isLoggedOut ? "hide" : ""
             }`}
-            style={{ height: sectionHeight }}
           >
             <Link to="/registration">
               <span>Or you can </span>
               <h2>REGISTER HERE</h2>
+            </Link>
+          </div>
+        ) : (
+          <div className="row text-center collapse-section">
+            <h1>Board size:</h1>
+            <select
+              onChange={(event) => setSelectedBoardSize(event.target.value)}
+              name="board-size"
+              id="board-size"
+              value={selectedBoardSize}
+            >
+              <option value="10">10 x 10</option>
+              <option value="15">15 x 15</option>
+              <option value="19">19 x 19</option>
+              <option value="24">24 x 24</option>
+            </select>
+            <Link to="/game">
+              <button disabled={isDisabled} onClick={handleGoButtonClick}>
+                Go
+              </button>
             </Link>
           </div>
         )}

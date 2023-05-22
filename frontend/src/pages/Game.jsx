@@ -1,22 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import GameBoard from "../components/GameBoard";
+import { player1Data, player2Data, boardSize } from "../admin/gameData";
 
 function Game() {
-  const [configModeOn, SetConfigModeOn] = useState(false);
 
   return (
     <div className="Game">
-      {configModeOn ? (
-        <div className="gameConfig">
-          <h3>Board size</h3>
-          <select name="" id="">
-            <option value="10x10">10x10</option>
-          </select>
-          <button>Go</button>
-        </div>
-      ) : (
+      <p>{player1Data.name}</p>
+      <p>{player2Data.color}</p>
+      <p>{boardSize}</p>
         <GameBoard />
-      )}
     </div>
   );
 }
