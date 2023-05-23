@@ -1,0 +1,12 @@
+.Game {
+  width: 100%;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: auto;
+}/*# sourceMappingURL=Game.css.map */

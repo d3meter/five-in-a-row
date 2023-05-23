@@ -12,7 +12,6 @@ import {
   updatePlayer2Data,
   updateBoardSize,
 } from "../admin/gameData";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function Main() {
   const [isDisabled, setIsDisabled] = useState(true);
@@ -57,6 +56,15 @@ useEffect(() => {
   if (user2Data) {
     const userData2 = JSON.parse(user2Data);
     setUser2(userData2);
+  }
+}, []);
+
+useEffect(() => {
+  // Check if board size is available in local storage
+  const storedBoardSize = localStorage.getItem("boardSize");
+  if (storedBoardSize) {
+    const parsedBoardSize = parseInt(storedBoardSize);
+    setSelectedBoardSize(parsedBoardSize);
   }
 }, []);
 
@@ -134,6 +142,8 @@ useEffect(() => {
     updatePlayer1Data(player1Data);
     updatePlayer2Data(player2Data);
     updateBoardSize(boardSize);
+
+    localStorage.setItem("boardSize", boardSize);
   };
 
   return (

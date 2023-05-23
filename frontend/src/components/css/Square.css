@@ -1,0 +1,12 @@
+.Square {
+  height: 60px;
+  width: 60px;
+  background-color: inherit;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  padding: unset;
+  box-sizing: border-box;
+}
+
+.Square:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}/*# sourceMappingURL=Square.css.map */
