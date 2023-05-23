@@ -1,1 +1,1 @@
-{"version":3,"sources":["Square.scss","Square.css"],"names":[],"mappings":"AAAA;EACC,YAAA;EACA,WAAA;EACA,yBAAA;EACA,0CAAA;EACA,cAAA;EACA,sBAAA;EACD,6DAAA;EACC,oBAAA;EACA,4BAAA;EACA,kCAAA;ACCD;ADAA;EACC,UAAA;EACA,YAAA;ACED;;ADCA;EACC,oCAAA;ACED","file":"Square.css"}
+{"version":3,"sources":["Square.scss","Square.css"],"names":[],"mappings":"AAAA;EACC,YAAA;EACA,WAAA;EACA,yBAAA;EACA,0CAAA;EACA,cAAA;EACA,sBAAA;ACCD;ADAA;EACC,UAAA;EACA,YAAA;ACED;;ADCA;EACC,0CAAA;ACED","file":"Square.css"}

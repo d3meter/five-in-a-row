@@ -41,23 +41,8 @@ function Square({ playersTurn, handleChangePlayersTurn }) {
     }
   };
 
-  const handleMouseEnter = (event) => {
-    if (playersTurn === player1Data.name) {
-      event.target.style.backgroundColor = player1Data.color;
-      event.target.style.filter = "opacity(0.2)";
-    } else {
-      event.target.style.backgroundColor = player2Data.color;
-      event.target.style.filter = "opacity(0.2)";
-    }
-  };
-
   const handleDisabled = () => {
     setIsDisabled(true);
-  };
-
-  const handleClearStyles = (event) => {
-    event.target.style.backgroundColor = "inherit";
-    event.target.style.filter = "none";
   };
 
   const buttonStyle = isDisabled
@@ -67,8 +52,6 @@ function Square({ playersTurn, handleChangePlayersTurn }) {
   return (
     <button
       className="Square"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleClearStyles}
       onClick={handleClick}
       disabled={isDisabled}
       style={buttonStyle}
