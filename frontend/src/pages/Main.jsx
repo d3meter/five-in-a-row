@@ -12,6 +12,7 @@ import {
   updatePlayer2Data,
   updateBoardSize,
 } from "../admin/gameData";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function Main() {
   const [isDisabled, setIsDisabled] = useState(true);
@@ -40,6 +41,24 @@ function Main() {
     setColorOfUser2(player2Data.color);
     setFigureOfUser2(player2Data.figure);
   }, []);
+
+useEffect(() => {
+  // Check if user1 data is available in local storage
+  const user1Data = localStorage.getItem("user1");
+  if (user1Data) {
+    const userData1 = JSON.parse(user1Data);
+    setUser1(userData1);
+  }
+  }, []);
+
+  useEffect(() => {
+  // Check if user2 data is available in local storage
+  const user2Data = localStorage.getItem("user2");
+  if (user2Data) {
+    const userData2 = JSON.parse(user2Data);
+    setUser2(userData2);
+  }
+}, []);
 
   const onNameChangeP1 = (value) => {
     setNameOfUser1(value);
@@ -82,19 +101,19 @@ function Main() {
   }, [isReadyUser1, isReadyUser2]);
 
   const handleLoginPlayer1 = (email, password) => {
-    login(email, password).then((userData1) => setUser1(userData1));
+    login(email, password, 1).then((userData1) => setUser1(userData1));
   };
 
   const handleLoginPlayer2 = (email, password) => {
-    login(email, password).then((userData2) => setUser2(userData2));
+    login(email, password, 2).then((userData2) => setUser2(userData2));
   };
 
   const handleLogoutPlayer1 = () => {
-    logOut(user1).then(() => setUser1(null));
+    logOut(1).then(() => setUser1(null));
   };
 
   const handleLogoutPlayer2 = () => {
-    logOut(user2).then(() => setUser2(null));
+    logOut(2).then(() => setUser2(null));
   };
 
   const handleGoButtonClick = () => {
