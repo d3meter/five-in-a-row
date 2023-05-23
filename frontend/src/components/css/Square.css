@@ -5,6 +5,14 @@
   border: 2px solid rgba(255, 255, 255, 0.5);
   padding: unset;
   box-sizing: border-box;
+  /*  background-image: url("../../imgs/figures/circle.png"); */
+  background-size: 70%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.Square img {
+  width: 70%;
+  height: auto;
 }
 
 .Square:hover {

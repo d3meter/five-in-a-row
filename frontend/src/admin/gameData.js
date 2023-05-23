@@ -7,7 +7,7 @@ let player1Data = {
 let player2Data = {
  name: "player2",
  color: "blue",
- figure: "x"
+ figure: "cross"
 };
 
 let boardSize = "10";

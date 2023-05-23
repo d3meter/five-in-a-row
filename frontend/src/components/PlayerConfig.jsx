@@ -43,8 +43,10 @@ function PlayerConfig({
         value={figureOfUser}
       >
         <option value="triangle">Triangle</option>
-        <option value="x">X</option>
-        <option value="circle">Cicle</option>
+        <option value="cross">Cross</option>
+        <option value="circle">Circle</option>
+        <option value="star">Star</option>
+        <option value="square">Square</option>
       </select>
       <select
         onChange={handleColorChange}

@@ -2,7 +2,7 @@ import React from "react";
 import "./css/GameBoard.css";
 import Square from "./Square";
 
-function GameBoard({ boardSize }) {
+function GameBoard({ boardSize, playersTurn, handleChangePlayersTurn }) {
   const rows = boardSize;
   const columns = boardSize;
 
@@ -16,21 +16,12 @@ function GameBoard({ boardSize }) {
     grid.push(row);
   }
 
-  // Function to handle the selection of a component based on its indexes
-  const handleComponentSelection = (rowIndex, columnIndex) => {
-    // Your logic for handling the selection of the component
-    console.log(`Selected component at row ${rowIndex}, column ${columnIndex}`);
-  };
-
   return (
     <div className="GameBoard">
       {grid.map((row, rowIndex) => (
         <div className="row" key={rowIndex}>
           {row.map((cell, columnIndex) => (
-            <Square
-              key={`${rowIndex}-${columnIndex}`}
-              onClick={() => handleComponentSelection(rowIndex, columnIndex)}
-            />
+            <Square key={`${rowIndex}-${columnIndex}`} playersTurn={playersTurn} handleChangePlayersTurn={handleChangePlayersTurn} />
           ))}
         </div>
       ))}
