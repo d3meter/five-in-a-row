@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./css/GameBoard.css";
 import Square from "./Square";
-import { player1Data } from "../admin/gameData";
+import { player1Data, player2Data } from "../admin/gameData";
 
 
 function GameBoard({ boardSize, playersTurn, handleChangePlayersTurn }) {
@@ -15,6 +15,73 @@ function GameBoard({ boardSize, playersTurn, handleChangePlayersTurn }) {
       .map(() => Array(columns).fill(0));
     return initialGrid;
   });
+
+  const checkWin = (grid, rowIndex, columnIndex, playersTurn) => {
+    const startPoint = grid[rowIndex][columnIndex];
+    let counterDia1 = 1;
+    let counterDia2 = 1;
+    let counterHor = 1;
+    let counterVer = 1;
+  
+    const directions = [
+      { dx: -1, dy: -1 }, // top-left
+      { dx: 1, dy: 1 }, // bottom-right
+      { dx: -1, dy: 1 }, // top-right
+      { dx: 1, dy: -1 }, // bottom-left
+      { dx: 0, dy: -1 }, // up
+      { dx: 0, dy: 1 }, // down
+      { dx: -1, dy: 0 }, // left
+      { dx: 1, dy: 0 } // right
+    ];
+  
+    for (const { dx, dy } of directions) {
+      let i = 1;
+      while (true) {
+        const x = rowIndex + dx * i;
+        const y = columnIndex + dy * i;
+        
+        if (
+          x < 0 ||
+          x >= grid.length ||
+          y < 0 ||
+          y >= grid[0].length ||
+          grid[x][y] !== startPoint
+        ) {
+          break;
+        }
+  
+        if (dx === -1 && dy === -1) {
+          counterDia1 += 1;
+        } else if (dx === 1 && dy === 1) {
+          counterDia1 += 1;
+        } else if (dx === -1 && dy === 1) {
+          counterDia2 += 1;
+        } else if (dx === 1 && dy === -1) {
+          counterDia2 += 1;
+        } else if (dx === 0 && dy === -1) {
+          counterHor += 1;
+        } else if (dx === 0 && dy === 1) {
+          counterHor += 1;
+        } else if (dx === -1 && dy === 0) {
+          counterVer += 1;
+        } else if (dx === 1 && dy === 0) {
+          counterVer += 1;
+        }
+  
+        i++;
+      }
+    }
+  
+    if (
+      counterDia1 >= 5 ||
+      counterDia2 >= 5 ||
+      counterHor >= 5 ||
+      counterVer >= 5
+    ) {
+      console.log(`Player ${playersTurn} wins!`);
+    }
+  };
+  
 
   const handleSquareClick = (rowIndex, columnIndex) => {
     // Check if the square is already clicked
@@ -34,7 +101,7 @@ function GameBoard({ boardSize, playersTurn, handleChangePlayersTurn }) {
     setGrid(updatedGrid);
     console.log(updatedGrid);
 
-
+    checkWin(updatedGrid, rowIndex, columnIndex, playersTurn)
   };
 
   return (
