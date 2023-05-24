@@ -7,7 +7,7 @@ import square from "../imgs/figures/square.png";
 import star from "../imgs/figures/star.png";
 import triangle from "../imgs/figures/triangle.png";
 
-function Square({ playersTurn, handleChangePlayersTurn }) {
+function Square({ playersTurn, handleChangePlayersTurn, handleSquareClick }) {
   const [isDisabled, setIsDisabled] = useState(false);
   const [imageSrc, setImageSrc] = useState("");
 
@@ -19,7 +19,7 @@ function Square({ playersTurn, handleChangePlayersTurn }) {
     onChangePlayersTurn();
     handleDisabled();
     handleImgSrc();
-    //change background to figure
+    handleSquareClick();
     //add value 1 or 2
   };
 
