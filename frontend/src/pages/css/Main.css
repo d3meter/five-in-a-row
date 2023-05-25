@@ -13,6 +13,10 @@
 .Main .container {
   width: 100%;
 }
+.Main .container .players .players-card img {
+  width: 30px;
+  height: auto;
+}
 .Main .container .collapse-section {
   overflow: hidden;
   transition: height 2s ease-out;

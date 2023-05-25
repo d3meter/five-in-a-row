@@ -12,6 +12,11 @@ import {
   updatePlayer2Data,
   updateBoardSize,
 } from "../admin/gameData";
+import circle from "../imgs/figures/circle.png";
+import cross from "../imgs/figures/cross.png";
+import square from "../imgs/figures/square.png";
+import star from "../imgs/figures/star.png";
+import triangle from "../imgs/figures/triangle.png";
 
 function Main() {
   const [isDisabled, setIsDisabled] = useState(true);
@@ -24,13 +29,23 @@ function Main() {
   const [colorOfUser1, setColorOfUser1] = useState("");
   const [figureOfUser1, setFigureOfUser1] = useState("");
   const [isReadyUser1, setIsReadyUser1] = useState(false);
+  const [imageSrcUser1, setImageSrcUser1] = useState("");
 
   const [nameOfUser2, setNameOfUser2] = useState("");
   const [colorOfUser2, setColorOfUser2] = useState("");
   const [figureOfUser2, setFigureOfUser2] = useState("");
   const [isReadyUser2, setIsReadyUser2] = useState(false);
+  const [imageSrcUser2, setImageSrcUser2] = useState("");
 
   const [selectedBoardSize, setSelectedBoardSize] = useState(boardSize);
+
+  const figureImages = {
+    circle,
+    cross,
+    square,
+    star,
+    triangle,
+  };
 
   useEffect(() => {
     loadPlayersData();
@@ -69,6 +84,7 @@ function Main() {
       setNameOfUser1(storedPlayer1Data.name);
       setColorOfUser1(storedPlayer1Data.color);
       setFigureOfUser1(storedPlayer1Data.figure);
+      handleImgSrcChangeP1(storedPlayer1Data.figure)
     }
 
     const storedPlayer2Data = JSON.parse(localStorage.getItem("player2Data"));
@@ -76,6 +92,7 @@ function Main() {
       setNameOfUser2(storedPlayer2Data.name);
       setColorOfUser2(storedPlayer2Data.color);
       setFigureOfUser2(storedPlayer2Data.figure);
+      handleImgSrcChangeP2(storedPlayer2Data.figure)
     }
   };
 
@@ -97,10 +114,22 @@ function Main() {
 
   const onFigureChangeP1 = (value) => {
     setFigureOfUser1(value);
+    handleImgSrcChangeP1(value);
   };
 
   const onFigureChangeP2 = (value) => {
     setFigureOfUser2(value);
+    handleImgSrcChangeP2(value);
+  };
+
+  const handleImgSrcChangeP1 = (value) => {
+    const p1Figure = value;
+    setImageSrcUser1(figureImages[p1Figure]);
+  };
+
+  const handleImgSrcChangeP2 = (value) => {
+    const p2Figure = value;
+    setImageSrcUser2(figureImages[p2Figure]);
   };
 
   const handleStatusChangeP1 = () => {
@@ -173,14 +202,16 @@ function Main() {
           </div>
         )}
         <hr />
-        <div className="row gap-5 justify-content-center">
-          <div className="col-md-5 col-lg-5">
+        <div className="players row gap-5 justify-content-center">
+          <div className="players-card col-md-5 col-lg-5">
             <h1>Player 1</h1>
             {!!user1 ? (
               <>
                 <p>{nameOfUser1}</p>
+                {imageSrcUser1 && (
+                  <img src={imageSrcUser1} alt="figure" key={imageSrcUser1} />
+                )}
                 <p>{colorOfUser1}</p>
-                <p>{figureOfUser1}</p>
                 <PlayerConfig
                   user={user1}
                   nameOfUser={nameOfUser1}
@@ -197,13 +228,15 @@ function Main() {
               <Login onLoginPlayer={handleLoginPlayer1} />
             )}
           </div>
-          <div className="col-md-5 col-lg-5">
+          <div className="players-card col-md-5 col-lg-5">
             <h1>Player 2</h1>
             {!!user2 ? (
               <>
                 <p>{nameOfUser2}</p>
+                {imageSrcUser2 && (
+                  <img src={imageSrcUser2} alt="figure" key={imageSrcUser2} />
+                )}
                 <p>{colorOfUser2}</p>
-                <p>{figureOfUser2}</p>
                 <PlayerConfig
                   user={user2}
                   nameOfUser={nameOfUser2}

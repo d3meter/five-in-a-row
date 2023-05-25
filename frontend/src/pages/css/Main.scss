@@ -11,6 +11,14 @@
   margin-inline: auto;
   .container {
     width: 100%;
+    .players {
+      .players-card {
+        img {
+          width: 30px;
+          height: auto;
+        }
+      }
+    }
     .collapse-section {
      overflow: hidden;
      transition: height 2s ease-out;
