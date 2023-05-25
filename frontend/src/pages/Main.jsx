@@ -21,6 +21,7 @@ import triangle from "../imgs/figures/triangle.png";
 function Main() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoggedOut, setIsLoggedOut] = useState(false);
+  const [playersDataInvalid, setPlayersDataInvalid] = useState(false);
 
   const [user1, setUser1] = useState(null);
   const [user2, setUser2] = useState(null);
@@ -147,11 +148,25 @@ function Main() {
   };
 
   const handleStatusChangeP1 = () => {
-    setIsReadyUser1((prevState) => !prevState);
+    if (
+      (isReadyUser2 && colorOfUser1 === colorOfUser2) ||
+      (isReadyUser2 && figureOfUser1 === figureOfUser2)
+    ) {
+      console.log("invalid");
+    } else {
+      setIsReadyUser1((prevState) => !prevState);
+    }
   };
 
   const handleStatusChangeP2 = () => {
-    setIsReadyUser2((prevState) => !prevState);
+    if (
+      (isReadyUser1 && colorOfUser1 === colorOfUser2) ||
+      (isReadyUser1 && figureOfUser1 === figureOfUser2)
+    ) {
+      console.log("invalid");
+    } else {
+      setIsReadyUser2((prevState) => !prevState);
+    }
   };
 
   useEffect(() => {
@@ -202,6 +217,9 @@ function Main() {
     updatePlayer1Data(player1Data);
     updatePlayer2Data(player2Data);
     updateBoardSize(boardSize);
+
+    localStorage.setItem("player1ImgSrc", JSON.stringify(imageSrcUser1));
+    localStorage.setItem("player2ImgSrc", JSON.stringify(imageSrcUser2));
   };
 
   return (
@@ -239,7 +257,12 @@ function Main() {
                   onColorChange={onColorChangeP1}
                   onFigureChange={onFigureChangeP1}
                 />
-                <button onClick={handleStatusChangeP1}>Ready</button>
+                <button
+                  onClick={handleStatusChangeP1}
+                  style={{ backgroundColor: isReadyUser1 ? "green" : "" }}
+                >
+                  Ready
+                </button>
               </>
             ) : (
               <Login onLoginPlayer={handleLoginPlayer1} />
@@ -267,7 +290,12 @@ function Main() {
                   onColorChange={onColorChangeP2}
                   onFigureChange={onFigureChangeP2}
                 />
-                <button onClick={handleStatusChangeP2}>Ready</button>
+                <button
+                  style={{ backgroundColor: isReadyUser2 ? "green" : "" }}
+                  onClick={handleStatusChangeP2}
+                >
+                  Ready
+                </button>
               </>
             ) : (
               <Login onLoginPlayer={handleLoginPlayer2} />

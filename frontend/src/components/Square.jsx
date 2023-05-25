@@ -1,11 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./css/Square.css";
-import { player1Data, player2Data } from "../admin/gameData";
-import circle from "../imgs/figures/circle.png";
-import cross from "../imgs/figures/cross.png";
-import square from "../imgs/figures/square.png";
-import star from "../imgs/figures/star.png";
-import triangle from "../imgs/figures/triangle.png";
 
 function Square({
   playersTurn,
@@ -13,10 +7,14 @@ function Square({
   handleSquareClick,
   isGameOver,
   isWinningElement,
-  winningPlayerColor,
+  player1Data,
+  player2Data,
+  player1Figure,
+  player2Figure,
 }) {
   const [isDisabled, setIsDisabled] = useState(false);
   const [imageSrc, setImageSrc] = useState("");
+  const [figureColor, setFigureColor] = useState("");
 
   const onChangePlayersTurn = () => {
     handleChangePlayersTurn();
@@ -24,28 +22,27 @@ function Square({
 
   const handleClick = () => {
     if (!isGameOver) {
+      handleImgSrc();
+      handleFigureColor();
       onChangePlayersTurn();
       handleDisabled();
-      handleImgSrc();
       handleSquareClick();
     }
   };
 
-  const figureImages = {
-    circle,
-    cross,
-    square,
-    star,
-    triangle,
-  };
-
   const handleImgSrc = () => {
     if (playersTurn === player1Data.name) {
-      const p1Figure = player1Data.figure;
-      setImageSrc(figureImages[p1Figure]);
+      setImageSrc(player1Figure);
     } else {
-      const p2Figure = player2Data.figure;
-      setImageSrc(figureImages[p2Figure]);
+      setImageSrc(player2Figure);
+    }
+  };
+
+  const handleFigureColor = () => {
+    if (playersTurn === player1Data.name) {
+      setFigureColor(player1Data.color);
+    } else {
+      setFigureColor(player2Data.color);
     }
   };
 
@@ -53,13 +50,15 @@ function Square({
     setIsDisabled(true);
   };
 
-  const buttonStyle = isDisabled || isGameOver
-    ? { backgroundColor: "inherit", filter: "none", cursor: "default" }
-    : {};
+  const buttonStyle =
+    isDisabled || isGameOver
+      ? { backgroundColor: "inherit", filter: "none", cursor: "default" }
+      : {};
 
-    const squareStyle = isWinningElement && isGameOver
-    ? { backgroundColor: winningPlayerColor }
-    : {};
+  const squareStyle =
+    isWinningElement && isGameOver
+      ? { backgroundColor: "#534341" }
+      : {};
 
   return (
     <button
@@ -68,7 +67,9 @@ function Square({
       disabled={isDisabled}
       style={{ ...buttonStyle, ...squareStyle }}
     >
-      {imageSrc && <img src={imageSrc} alt="figure" />}
+      {imageSrc && (
+        <img className={"figure-" + figureColor} src={imageSrc} alt="figure" />
+      )}
     </button>
   );
 }

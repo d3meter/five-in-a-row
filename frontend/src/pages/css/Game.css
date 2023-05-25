@@ -18,4 +18,8 @@
   gap: 40px;
   flex-wrap: wrap;
   background-color: white;
+}
+.Game .game-header .player-container img {
+  width: 30px;
+  height: auto;
 }/*# sourceMappingURL=Game.css.map */

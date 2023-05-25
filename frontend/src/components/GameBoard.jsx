@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import "./css/GameBoard.css";
 import Square from "./Square";
-import { player1Data, player2Data } from "../admin/gameData";
 
-
-function GameBoard({ boardSize, playersTurn, handleChangePlayersTurn }) {
+function GameBoard({
+  boardSize,
+  playersTurn,
+  handleChangePlayersTurn,
+  player1Data,
+  player2Data,
+  player1Figure,
+  player2Figure,
+}) {
   const [isGameOver, setIsGameOver] = useState(false);
 
   const rows = boardSize;
@@ -25,7 +31,7 @@ function GameBoard({ boardSize, playersTurn, handleChangePlayersTurn }) {
     let counterHor = 1;
     let counterVer = 1;
     let winningElements = [[rowIndex, columnIndex]];
-  
+
     const directions = [
       { dx: -1, dy: -1 }, // top-left
       { dx: 1, dy: 1 }, // bottom-right
@@ -34,15 +40,15 @@ function GameBoard({ boardSize, playersTurn, handleChangePlayersTurn }) {
       { dx: 0, dy: -1 }, // up
       { dx: 0, dy: 1 }, // down
       { dx: -1, dy: 0 }, // left
-      { dx: 1, dy: 0 } // right
+      { dx: 1, dy: 0 }, // right
     ];
-  
+
     for (const { dx, dy } of directions) {
       let i = 1;
       while (true) {
         const x = rowIndex + dx * i;
         const y = columnIndex + dy * i;
-        
+
         if (
           x < 0 ||
           x >= grid.length ||
@@ -52,7 +58,7 @@ function GameBoard({ boardSize, playersTurn, handleChangePlayersTurn }) {
         ) {
           break;
         }
-  
+
         if (dx === -1 && dy === -1) {
           counterDia1 += 1;
         } else if (dx === 1 && dy === 1) {
@@ -70,12 +76,12 @@ function GameBoard({ boardSize, playersTurn, handleChangePlayersTurn }) {
         } else if (dx === 1 && dy === 0) {
           counterVer += 1;
         }
-  
+
         winningElements.push([x, y]);
         i++;
       }
     }
-  
+
     if (
       counterDia1 >= 5 ||
       counterDia2 >= 5 ||
@@ -114,7 +120,7 @@ function GameBoard({ boardSize, playersTurn, handleChangePlayersTurn }) {
     setGrid(updatedGrid);
     console.log(updatedGrid);
 
-    checkWin(updatedGrid, rowIndex, columnIndex, playersTurn)
+    checkWin(updatedGrid, rowIndex, columnIndex, playersTurn);
   };
 
   return (
@@ -127,13 +133,12 @@ function GameBoard({ boardSize, playersTurn, handleChangePlayersTurn }) {
               playersTurn={playersTurn}
               handleChangePlayersTurn={handleChangePlayersTurn}
               handleSquareClick={() => handleSquareClick(rowIndex, columnIndex)}
-              isGameOver = {isGameOver}
+              isGameOver={isGameOver}
               isWinningElement={grid[rowIndex][columnIndex] !== 0}
-              winningPlayerColor={
-                playersTurn === player1Data.name
-                  ? player1Data.color
-                  : player2Data.color
-              }
+              player1Data={player1Data}
+              player2Data={player2Data}
+              player1Figure={player1Figure}
+              player2Figure={player2Figure}
             />
           ))}
         </div>

@@ -22,6 +22,14 @@
     .collapse-section {
      overflow: hidden;
      transition: height 2s ease-out;
+     width: 100%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     a {
+      width: auto;
+      padding: unset;
+     }
    }
    
    .collapse-section.hide {
