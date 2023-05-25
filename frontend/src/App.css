@@ -23,7 +23,8 @@ a img {
   border: none;
 }
 
-h1, h2 {
+h1,
+h2 {
   font-weight: bold;
 }
 
@@ -39,10 +40,38 @@ hr {
 body {
   font-family: "Quicksand", sans-serif;
   background-color: #181717;
-/*   background-image: url(imgs/tic-tac-toe.png);
+  /*   background-image: url(imgs/tic-tac-toe.png);
   background-size: 40%;
   background-repeat: no-repeat;
   background-position: top right; */
+}
+
+.figure-orange {
+  filter: invert(40%) sepia(100%) saturate(500%) hue-rotate(0deg);
+}
+
+.figure-purple {
+  filter: invert(50%) sepia(100%) saturate(400%) hue-rotate(200deg);
+}
+
+.figure-green {
+  filter: invert(40%) sepia(100%) saturate(500%) hue-rotate(45deg);
+}
+
+.figure-yellow {
+  filter: invert(40%) sepia(100%) saturate(500%) hue-rotate(10deg);
+}
+
+.figure-blue {
+  filter: invert(40%) sepia(100%) saturate(500%) hue-rotate(170deg);
+}
+
+.figure-pink {
+  filter: invert(40%) sepia(100%) saturate(500%) hue-rotate(270deg);
+}
+
+.figure-red {
+  filter: invert(70%) sepia(100%) saturate(500%) hue-rotate(320deg);
 }
 
 /* #root {
@@ -53,7 +82,7 @@ body {
 } */
 
 .App {
-/*   min-height: 100vh;
+  /*   min-height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
