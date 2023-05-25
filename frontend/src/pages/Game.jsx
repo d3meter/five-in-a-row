@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./css/Game.css";
 import GameBoard from "../components/GameBoard";
-import { player1Data, player2Data } from "../admin/gameData";
 
 function Game() {
   const [boardSize, setBoardSize] = useState(10);
+  const [player1Data, setPlayer1Data ] = useState({});
+  const [player2Data, setPlayer2Data ] = useState({})
   const [playersTurn, setPlayersTurn] = useState(player1Data.name);
 
   const handleChangePlayersTurn = () => {
@@ -20,6 +21,12 @@ function Game() {
       const parsedBoardSize = parseInt(storedBoardSize);
       setBoardSize(parsedBoardSize);
     }
+
+    const storedPlayer1Data = JSON.parse(localStorage.getItem("player1Data"));
+    setPlayer1Data(storedPlayer1Data);
+
+    const storedPlayer2Data = JSON.parse(localStorage.getItem("player2Data"));
+    setPlayer2Data(storedPlayer2Data);
   }, []);
 
   return (
