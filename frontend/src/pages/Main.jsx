@@ -33,40 +33,51 @@ function Main() {
   const [selectedBoardSize, setSelectedBoardSize] = useState(boardSize);
 
   useEffect(() => {
-    setNameOfUser1(player1Data.name);
-    setColorOfUser1(player1Data.color);
-    setFigureOfUser1(player1Data.figure);
-    setNameOfUser2(player2Data.name);
-    setColorOfUser2(player2Data.color);
-    setFigureOfUser2(player2Data.figure);
-  }, []);
-
-useEffect(() => {
-  // Check if user1 data is available in local storage
-  const user1Data = localStorage.getItem("user1");
-  if (user1Data) {
-    const userData1 = JSON.parse(user1Data);
-    setUser1(userData1);
-  }
+    loadPlayersData();
   }, []);
 
   useEffect(() => {
-  // Check if user2 data is available in local storage
-  const user2Data = localStorage.getItem("user2");
-  if (user2Data) {
-    const userData2 = JSON.parse(user2Data);
-    setUser2(userData2);
-  }
-}, []);
+    // Check if user1 data is available in local storage
+    const user1Data = localStorage.getItem("user1");
+    if (user1Data) {
+      const userData1 = JSON.parse(user1Data);
+      setUser1(userData1);
+    }
+  }, []);
 
-useEffect(() => {
-  // Check if board size is available in local storage
-  const storedBoardSize = localStorage.getItem("boardSize");
-  if (storedBoardSize) {
-    const parsedBoardSize = parseInt(storedBoardSize);
-    setSelectedBoardSize(parsedBoardSize);
-  }
-}, []);
+  useEffect(() => {
+    // Check if user2 data is available in local storage
+    const user2Data = localStorage.getItem("user2");
+    if (user2Data) {
+      const userData2 = JSON.parse(user2Data);
+      setUser2(userData2);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Check if board size is available in local storage
+    const storedBoardSize = localStorage.getItem("boardSize");
+    if (storedBoardSize) {
+      const parsedBoardSize = parseInt(storedBoardSize);
+      setSelectedBoardSize(parsedBoardSize);
+    }
+  }, []);
+
+  const loadPlayersData = () => {
+    const storedPlayer1Data = JSON.parse(localStorage.getItem("player1Data"));
+    if (storedPlayer1Data) {
+      setNameOfUser1(storedPlayer1Data.name);
+      setColorOfUser1(storedPlayer1Data.color);
+      setFigureOfUser1(storedPlayer1Data.figure);
+    }
+
+    const storedPlayer2Data = JSON.parse(localStorage.getItem("player2Data"));
+    if (storedPlayer2Data) {
+      setNameOfUser2(storedPlayer2Data.name);
+      setColorOfUser2(storedPlayer2Data.color);
+      setFigureOfUser2(storedPlayer2Data.figure);
+    }
+  };
 
   const onNameChangeP1 = (value) => {
     setNameOfUser1(value);
@@ -110,10 +121,14 @@ useEffect(() => {
 
   const handleLoginPlayer1 = (email, password) => {
     login(email, password, 1).then((userData1) => setUser1(userData1));
+    localStorage.setItem("player1Data", JSON.stringify(player1Data));
+    loadPlayersData();
   };
 
   const handleLoginPlayer2 = (email, password) => {
     login(email, password, 2).then((userData2) => setUser2(userData2));
+    localStorage.setItem("player2Data", JSON.stringify(player2Data));
+    loadPlayersData();
   };
 
   const handleLogoutPlayer1 = () => {
@@ -126,12 +141,14 @@ useEffect(() => {
 
   const handleGoButtonClick = () => {
     const player1Data = {
+      email: user1.email,
       name: nameOfUser1,
       color: colorOfUser1,
       figure: figureOfUser1,
     };
 
     const player2Data = {
+      email: user2.email,
       name: nameOfUser2,
       color: colorOfUser2,
       figure: figureOfUser2,
@@ -142,8 +159,6 @@ useEffect(() => {
     updatePlayer1Data(player1Data);
     updatePlayer2Data(player2Data);
     updateBoardSize(boardSize);
-
-    localStorage.setItem("boardSize", boardSize);
   };
 
   return (

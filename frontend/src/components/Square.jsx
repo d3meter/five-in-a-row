@@ -7,7 +7,14 @@ import square from "../imgs/figures/square.png";
 import star from "../imgs/figures/star.png";
 import triangle from "../imgs/figures/triangle.png";
 
-function Square({ playersTurn, handleChangePlayersTurn, handleSquareClick }) {
+function Square({
+  playersTurn,
+  handleChangePlayersTurn,
+  handleSquareClick,
+  isGameOver,
+  isWinningElement,
+  winningPlayerColor,
+}) {
   const [isDisabled, setIsDisabled] = useState(false);
   const [imageSrc, setImageSrc] = useState("");
 
@@ -16,11 +23,12 @@ function Square({ playersTurn, handleChangePlayersTurn, handleSquareClick }) {
   };
 
   const handleClick = () => {
-    onChangePlayersTurn();
-    handleDisabled();
-    handleImgSrc();
-    handleSquareClick();
-    //add value 1 or 2
+    if (!isGameOver) {
+      onChangePlayersTurn();
+      handleDisabled();
+      handleImgSrc();
+      handleSquareClick();
+    }
   };
 
   const figureImages = {
@@ -36,7 +44,7 @@ function Square({ playersTurn, handleChangePlayersTurn, handleSquareClick }) {
       const p1Figure = player1Data.figure;
       setImageSrc(figureImages[p1Figure]);
     } else {
-     const p2Figure = player2Data.figure;
+      const p2Figure = player2Data.figure;
       setImageSrc(figureImages[p2Figure]);
     }
   };
@@ -45,8 +53,12 @@ function Square({ playersTurn, handleChangePlayersTurn, handleSquareClick }) {
     setIsDisabled(true);
   };
 
-  const buttonStyle = isDisabled
-    ? { backgroundColor: "inherit", filter: "none" }
+  const buttonStyle = isDisabled || isGameOver
+    ? { backgroundColor: "inherit", filter: "none", cursor: "default" }
+    : {};
+
+    const squareStyle = isWinningElement && isGameOver
+    ? { backgroundColor: winningPlayerColor }
     : {};
 
   return (
@@ -54,7 +66,7 @@ function Square({ playersTurn, handleChangePlayersTurn, handleSquareClick }) {
       className="Square"
       onClick={handleClick}
       disabled={isDisabled}
-      style={buttonStyle}
+      style={{ ...buttonStyle, ...squareStyle }}
     >
       {imageSrc && <img src={imageSrc} alt="figure" />}
     </button>

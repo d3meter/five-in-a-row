@@ -50,4 +50,5 @@ export const registration = function (email, password) {
 export const logOut = async function (userNumber) {
   await signOut(auth);
   localStorage.removeItem(`user${userNumber}`);
+  localStorage.removeItem(`player${userNumber}Data`);
 };

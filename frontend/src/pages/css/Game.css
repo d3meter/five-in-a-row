@@ -9,4 +9,13 @@
   flex-direction: column;
   box-sizing: border-box;
   overflow: auto;
+}
+.Game .game-header {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  background-color: white;
 }/*# sourceMappingURL=Game.css.map */
