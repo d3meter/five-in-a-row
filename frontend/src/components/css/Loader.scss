@@ -1,0 +1,13 @@
+.Loader {
+ width: 100%;
+ height: auto;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ img {
+  width: 40%;
+  height: auto;
+  opacity: 0.5;
+ }
+}

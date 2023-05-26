@@ -10,6 +10,46 @@
   color: white;
   margin-inline: auto;
 }
+.Main .container {
+  width: 100%;
+  height: auto;
+}
+.Main .container .players {
+  width: 100%;
+  height: 380px;
+}
+.Main .container .players .players-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background-color: rgba(255, 255, 255, 0.2588235294);
+  border-radius: 5px;
+}
+.Main .container .players .players-card img {
+  width: 30px;
+  height: auto;
+}
+.Main .container .collapse-section {
+  overflow: hidden;
+  transition: height 2s ease-out;
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.Main .container .collapse-section .reg-container {
+  padding-inline: 30px;
+}
+.Main .container .collapse-section a {
+  width: auto;
+  padding: unset;
+}
+.Main .container .collapse-section.hide {
+  height: 0;
+  transition: height 2s ease-out;
+}
 .Main .bg-content {
   position: absolute;
   z-index: -1;
@@ -34,27 +74,4 @@
   left: -10%;
   bottom: -30%;
   transform: rotate(330deg);
-}
-.Main .container {
-  width: 100%;
-}
-.Main .container .players .players-card img {
-  width: 30px;
-  height: auto;
-}
-.Main .container .collapse-section {
-  overflow: hidden;
-  transition: height 2s ease-out;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.Main .container .collapse-section a {
-  width: auto;
-  padding: unset;
-}
-.Main .container .collapse-section.hide {
-  height: 0;
-  transition: height 2s ease-out;
 }/*# sourceMappingURL=Main.css.map */

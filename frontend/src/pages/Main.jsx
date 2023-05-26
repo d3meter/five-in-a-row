@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Login from "../components/Login";
 import { login, logOut } from "../admin/auth";
 import PlayerConfig from "../components/PlayerConfig";
+import Loader from "../components/Loader";
 import {
   player1Data,
   player2Data,
@@ -17,11 +18,13 @@ import cross from "../imgs/figures/cross.png";
 import square from "../imgs/figures/square.png";
 import star from "../imgs/figures/star.png";
 import triangle from "../imgs/figures/triangle.png";
-import ticTacToe from "../imgs/tic-tac-toe.png"
+import ticTacToe from "../imgs/tic-tac-toe.png";
 
 function Main() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoggedOut, setIsLoggedOut] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [playersDataInvalid, setPlayersDataInvalid] = useState(false);
 
   const [user1, setUser1] = useState(null);
@@ -50,6 +53,12 @@ function Main() {
     star,
     triangle,
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  });
 
   useEffect(() => {
     loadPlayersData();
@@ -225,123 +234,147 @@ function Main() {
 
   return (
     <div className="Main">
-      <img className="bg-content left-top" src={ticTacToe} alt="tic-tac-toe" />
-      <img className="bg-content right-top" src={ticTacToe} alt="tic-tac-toe" />
-      <img className="bg-content right-bottom" src={ticTacToe} alt="tic-tac-toe" />
-      <img className="bg-content left-bottom" src={ticTacToe} alt="tic-tac-toe" />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <img
+            className="bg-content left-top"
+            src={ticTacToe}
+            alt="tic-tac-toe"
+          />
+          <img
+            className="bg-content right-top"
+            src={ticTacToe}
+            alt="tic-tac-toe"
+          />
+          <img
+            className="bg-content right-bottom"
+            src={ticTacToe}
+            alt="tic-tac-toe"
+          />
+          <img
+            className="bg-content left-bottom"
+            src={ticTacToe}
+            alt="tic-tac-toe"
+          />
 
-      <div className="container">
-        {isLoggedOut && (
-          <div className={`row ${!isLoggedOut ? "hide" : ""}`}>
-            <div className="col text-center">
-              <h2>Five in a Row (for 2 players)</h2>
-              <span>In order to play, both players need to be logged in.</span>
+          <div className="container">
+            {isLoggedOut && (
+              <div className={`row ${!isLoggedOut ? "hide" : ""}`}>
+                <div className="col text-center">
+                  <h2>Five in a Row (for 2 players)</h2>
+                  <span>
+                    In order to play, both players need to be logged in.
+                  </span>
+                </div>
+              </div>
+            )}
+            <hr />
+            <div className="players row gap-5 justify-content-center">
+              <div className="players-card col-md-5 col-lg-5 p-4 px-5">
+                <h1>Player 1</h1>
+                {!!user1 ? (
+                  <>
+                    <p>{nameOfUser1}</p>
+                    {imageSrcUser1 && (
+                      <img
+                        className={imgClassUser1}
+                        src={imageSrcUser1}
+                        alt="figure"
+                      />
+                    )}
+                    <PlayerConfig
+                      user={user1}
+                      nameOfUser={nameOfUser1}
+                      colorOfUser={colorOfUser1}
+                      figureOfUser={figureOfUser1}
+                      onLogoutPlayer={handleLogoutPlayer1}
+                      onNameChange={onNameChangeP1}
+                      onColorChange={onColorChangeP1}
+                      onFigureChange={onFigureChangeP1}
+                    />
+                    <button
+                      onClick={handleStatusChangeP1}
+                      style={{ backgroundColor: isReadyUser1 ? "green" : "" }}
+                    >
+                      Ready
+                    </button>
+                  </>
+                ) : (
+                  <Login onLoginPlayer={handleLoginPlayer1} />
+                )}
+              </div>
+              <div className="players-card col-md-5 col-lg-5 p-4 px-5">
+                <h1>Player 2</h1>
+                {!!user2 ? (
+                  <>
+                    <p>{nameOfUser2}</p>
+                    {imageSrcUser2 && (
+                      <img
+                        className={imgClassUser2}
+                        src={imageSrcUser2}
+                        alt="figure"
+                      />
+                    )}
+                    <PlayerConfig
+                      user={user2}
+                      nameOfUser={nameOfUser2}
+                      colorOfUser={colorOfUser2}
+                      figureOfUser={figureOfUser2}
+                      onLogoutPlayer={handleLogoutPlayer2}
+                      onNameChange={onNameChangeP2}
+                      onColorChange={onColorChangeP2}
+                      onFigureChange={onFigureChangeP2}
+                    />
+                    <button
+                      style={{ backgroundColor: isReadyUser2 ? "green" : "" }}
+                      onClick={handleStatusChangeP2}
+                    >
+                      Ready
+                    </button>
+                  </>
+                ) : (
+                  <Login onLoginPlayer={handleLoginPlayer2} />
+                )}
+              </div>
             </div>
-          </div>
-        )}
-        <hr />
-        <div className="players row gap-5 justify-content-center">
-          <div className="players-card col-md-5 col-lg-5">
-            <h1>Player 1</h1>
-            {!!user1 ? (
-              <>
-                <p>{nameOfUser1}</p>
-                {imageSrcUser1 && (
-                  <img
-                    className={imgClassUser1}
-                    src={imageSrcUser1}
-                    alt="figure"
-                  />
-                )}
-                <PlayerConfig
-                  user={user1}
-                  nameOfUser={nameOfUser1}
-                  colorOfUser={colorOfUser1}
-                  figureOfUser={figureOfUser1}
-                  onLogoutPlayer={handleLogoutPlayer1}
-                  onNameChange={onNameChangeP1}
-                  onColorChange={onColorChangeP1}
-                  onFigureChange={onFigureChangeP1}
-                />
-                <button
-                  onClick={handleStatusChangeP1}
-                  style={{ backgroundColor: isReadyUser1 ? "green" : "" }}
-                >
-                  Ready
-                </button>
-              </>
+            <hr />
+            {isLoggedOut ? (
+              <div
+                className={`row text-center collapse-section ${
+                  !isLoggedOut ? "hide" : ""
+                }`}
+              >
+                <Link className="reg-container" to="/registration">
+                  <span>Or you can </span>
+                  <h2>REGISTER HERE</h2>
+                </Link>
+              </div>
             ) : (
-              <Login onLoginPlayer={handleLoginPlayer1} />
+              <div className="row text-center collapse-section">
+                <h1>Board size:</h1>
+                <select
+                  onChange={(event) => setSelectedBoardSize(event.target.value)}
+                  name="board-size"
+                  id="board-size"
+                  value={selectedBoardSize}
+                >
+                  <option value="10">10 x 10</option>
+                  <option value="15">15 x 15</option>
+                  <option value="19">19 x 19</option>
+                  <option value="24">24 x 24</option>
+                </select>
+                <Link to="/game">
+                  <button disabled={isDisabled} onClick={handleGoButtonClick}>
+                    Go
+                  </button>
+                </Link>
+              </div>
             )}
           </div>
-          <div className="players-card col-md-5 col-lg-5">
-            <h1>Player 2</h1>
-            {!!user2 ? (
-              <>
-                <p>{nameOfUser2}</p>
-                {imageSrcUser2 && (
-                  <img
-                    className={imgClassUser2}
-                    src={imageSrcUser2}
-                    alt="figure"
-                  />
-                )}
-                <PlayerConfig
-                  user={user2}
-                  nameOfUser={nameOfUser2}
-                  colorOfUser={colorOfUser2}
-                  figureOfUser={figureOfUser2}
-                  onLogoutPlayer={handleLogoutPlayer2}
-                  onNameChange={onNameChangeP2}
-                  onColorChange={onColorChangeP2}
-                  onFigureChange={onFigureChangeP2}
-                />
-                <button
-                  style={{ backgroundColor: isReadyUser2 ? "green" : "" }}
-                  onClick={handleStatusChangeP2}
-                >
-                  Ready
-                </button>
-              </>
-            ) : (
-              <Login onLoginPlayer={handleLoginPlayer2} />
-            )}
-          </div>
-        </div>
-        <hr />
-        {isLoggedOut ? (
-          <div
-            className={`row text-center collapse-section ${
-              !isLoggedOut ? "hide" : ""
-            }`}
-          >
-            <Link to="/registration">
-              <span>Or you can </span>
-              <h2>REGISTER HERE</h2>
-            </Link>
-          </div>
-        ) : (
-          <div className="row text-center collapse-section">
-            <h1>Board size:</h1>
-            <select
-              onChange={(event) => setSelectedBoardSize(event.target.value)}
-              name="board-size"
-              id="board-size"
-              value={selectedBoardSize}
-            >
-              <option value="10">10 x 10</option>
-              <option value="15">15 x 15</option>
-              <option value="19">19 x 19</option>
-              <option value="24">24 x 24</option>
-            </select>
-            <Link to="/game">
-              <button disabled={isDisabled} onClick={handleGoButtonClick}>
-                Go
-              </button>
-            </Link>
-          </div>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 }

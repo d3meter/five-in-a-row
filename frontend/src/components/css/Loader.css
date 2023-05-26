@@ -1,0 +1,13 @@
+.Loader {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.Loader img {
+  width: 40%;
+  height: auto;
+  opacity: 0.5;
+}/*# sourceMappingURL=Loader.css.map */
