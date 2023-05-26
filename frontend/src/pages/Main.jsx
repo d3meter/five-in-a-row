@@ -17,6 +17,7 @@ import cross from "../imgs/figures/cross.png";
 import square from "../imgs/figures/square.png";
 import star from "../imgs/figures/star.png";
 import triangle from "../imgs/figures/triangle.png";
+import ticTacToe from "../imgs/tic-tac-toe.png"
 
 function Main() {
   const [isDisabled, setIsDisabled] = useState(true);
@@ -224,6 +225,11 @@ function Main() {
 
   return (
     <div className="Main">
+      <img className="bg-content left-top" src={ticTacToe} alt="tic-tac-toe" />
+      <img className="bg-content right-top" src={ticTacToe} alt="tic-tac-toe" />
+      <img className="bg-content right-bottom" src={ticTacToe} alt="tic-tac-toe" />
+      <img className="bg-content left-bottom" src={ticTacToe} alt="tic-tac-toe" />
+
       <div className="container">
         {isLoggedOut && (
           <div className={`row ${!isLoggedOut ? "hide" : ""}`}>

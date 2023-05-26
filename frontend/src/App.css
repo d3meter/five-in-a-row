@@ -38,12 +38,13 @@ hr {
 }
 
 body {
+  width: auto;
+  position: relative;
   font-family: "Quicksand", sans-serif;
   background-color: #181717;
-  /*   background-image: url(imgs/tic-tac-toe.png);
-  background-size: 40%;
-  background-repeat: no-repeat;
-  background-position: top right; */
+  overflow-x: hidden;
+  height: 100vh;
+  overflow-y: hidden;
 }
 
 .figure-orange {

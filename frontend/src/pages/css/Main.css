@@ -10,6 +10,31 @@
   color: white;
   margin-inline: auto;
 }
+.Main .bg-content {
+  position: absolute;
+  z-index: -1;
+  opacity: 0.5;
+}
+.Main .left-top {
+  left: -10%;
+  top: -20%;
+  transform: rotate(290deg);
+}
+.Main .right-top {
+  right: -10%;
+  top: -20%;
+  transform: rotate(240deg);
+}
+.Main .right-bottom {
+  right: -10%;
+  bottom: -30%;
+  transform: rotate(200deg);
+}
+.Main .left-bottom {
+  left: -10%;
+  bottom: -30%;
+  transform: rotate(330deg);
+}
 .Main .container {
   width: 100%;
 }
