@@ -159,7 +159,7 @@ function Main() {
     setImgClassUser2("figure-" + value);
   };
 
-  const handleStatusChangeP1 = () => {
+  const onStatusChangeP1 = () => {
     if (
       (isReadyUser2 && colorOfUser1 === colorOfUser2) ||
       (isReadyUser2 && figureOfUser1 === figureOfUser2)
@@ -170,7 +170,7 @@ function Main() {
     }
   };
 
-  const handleStatusChangeP2 = () => {
+  const onStatusChangeP2 = () => {
     if (
       (isReadyUser1 && colorOfUser1 === colorOfUser2) ||
       (isReadyUser1 && figureOfUser1 === figureOfUser2)
@@ -225,10 +225,12 @@ function Main() {
 
   const handleLogoutPlayer1 = () => {
     logOut(1).then(() => setUser1(null));
+    setIsReadyUser1(false);
   };
 
   const handleLogoutPlayer2 = () => {
     logOut(2).then(() => setUser2(null));
+    setIsReadyUser2(false);
   };
 
   const handleGoButtonClick = () => {
@@ -310,14 +312,6 @@ function Main() {
                 <h1>Player 1</h1>
                 {!!user1 ? (
                   <>
-                    <p>{nameOfUser1}</p>
-                    {imageSrcUser1 && (
-                      <img
-                        className={"figure " + imgClassUser1}
-                        src={imageSrcUser1}
-                        alt="figure"
-                      />
-                    )}
                     <PlayerConfig
                       user={user1}
                       nameOfUser={nameOfUser1}
@@ -327,13 +321,11 @@ function Main() {
                       onNameChange={onNameChangeP1}
                       onColorChange={onColorChangeP1}
                       onFigureChange={onFigureChangeP1}
+                      onStatusChange={onStatusChangeP1}
+                      isReadyUser={isReadyUser1}
+                      imageSrcUser={imageSrcUser1}
+                      imgClassUser={imgClassUser1}
                     />
-                    <button
-                      onClick={handleStatusChangeP1}
-                      style={{ backgroundColor: isReadyUser1 ? "green" : "" }}
-                    >
-                      Ready
-                    </button>
                   </>
                 ) : (
                   <Login
@@ -345,32 +337,20 @@ function Main() {
               <div className="players-card col-md-6 col-lg-4 p-4 px-5">
                 <h1>Player 2</h1>
                 {!!user2 ? (
-                  <>
-                    <p>{nameOfUser2}</p>
-                    {imageSrcUser2 && (
-                      <img
-                        className={"figure " + imgClassUser2}
-                        src={imageSrcUser2}
-                        alt="figure"
-                      />
-                    )}
-                    <PlayerConfig
-                      user={user2}
-                      nameOfUser={nameOfUser2}
-                      colorOfUser={colorOfUser2}
-                      figureOfUser={figureOfUser2}
-                      onLogoutPlayer={handleLogoutPlayer2}
-                      onNameChange={onNameChangeP2}
-                      onColorChange={onColorChangeP2}
-                      onFigureChange={onFigureChangeP2}
-                    />
-                    <button
-                      style={{ backgroundColor: isReadyUser2 ? "green" : "" }}
-                      onClick={handleStatusChangeP2}
-                    >
-                      Ready
-                    </button>
-                  </>
+                  <PlayerConfig
+                    user={user2}
+                    nameOfUser={nameOfUser2}
+                    colorOfUser={colorOfUser2}
+                    figureOfUser={figureOfUser2}
+                    onLogoutPlayer={handleLogoutPlayer2}
+                    onNameChange={onNameChangeP2}
+                    onColorChange={onColorChangeP2}
+                    onFigureChange={onFigureChangeP2}
+                    onStatusChange={onStatusChangeP2}
+                    isReadyUser={isReadyUser2}
+                    imageSrcUser={imageSrcUser2}
+                    imgClassUser={imgClassUser2}
+                  />
                 ) : (
                   <Login
                     errorMessage={errorMessagePlayer2}
