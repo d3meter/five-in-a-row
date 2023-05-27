@@ -28,7 +28,9 @@ function Main() {
   const [playersDataInvalid, setPlayersDataInvalid] = useState(false);
 
   const [user1, setUser1] = useState(null);
+  const [errorMessagePlayer1, setErrorMessagePlayer1] = useState(null);
   const [user2, setUser2] = useState(null);
+  const [errorMessagePlayer2, setErrorMessagePlayer2] = useState(null);
 
   const [nameOfUser1, setNameOfUser1] = useState("");
   const [colorOfUser1, setColorOfUser1] = useState("");
@@ -187,16 +189,38 @@ function Main() {
     setIsDisabled(!(isReadyUser1 && isReadyUser2));
   }, [isReadyUser1, isReadyUser2]);
 
-  const handleLoginPlayer1 = (email, password) => {
-    login(email, password, 1).then((userData1) => setUser1(userData1));
-    localStorage.setItem("player1Data", JSON.stringify(player1Data));
-    loadPlayersData();
+  const handleLoginPlayer1 = async (email, password) => {
+    if (user2?.email !== email) {
+      try {
+        await login(email, password, 1).then((userData1) =>
+          setUser1(userData1)
+        );
+        localStorage.setItem("player1Data", JSON.stringify(player1Data));
+        loadPlayersData();
+        setErrorMessagePlayer1(null);
+      } catch (error) {
+        setErrorMessagePlayer1("Wrong email or password!");
+      }
+    } else {
+      setErrorMessagePlayer1("Email already logged in!");
+    }
   };
 
-  const handleLoginPlayer2 = (email, password) => {
-    login(email, password, 2).then((userData2) => setUser2(userData2));
-    localStorage.setItem("player2Data", JSON.stringify(player2Data));
-    loadPlayersData();
+  const handleLoginPlayer2 = async (email, password) => {
+    if (user1?.email !== email) {
+      try {
+        await login(email, password, 2).then((userData2) =>
+          setUser2(userData2)
+        );
+        localStorage.setItem("player2Data", JSON.stringify(player2Data));
+        loadPlayersData();
+        setErrorMessagePlayer2(null);
+      } catch (error) {
+        setErrorMessagePlayer2("Wrong email or password!");
+      }
+    } else {
+      setErrorMessagePlayer2("Email already logged in!");
+    }
   };
 
   const handleLogoutPlayer1 = () => {
@@ -260,16 +284,26 @@ function Main() {
           />
 
           <div className="container">
-            {isLoggedOut && (
-              <div className={`row ${!isLoggedOut ? "hide" : ""}`}>
-                <div className="col text-center">
-                  <h2>Five in a Row (for 2 players)</h2>
-                  <span>
-                    In order to play, both players need to be logged in.
-                  </span>
-                </div>
+            <div className="row">
+              <div className="col text-center">
+                {isLoggedOut ? (
+                  <>
+                    <h2>Five in a Row (for 2 players)</h2>
+                    <span>
+                      In order to play, both players need to be logged in.
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <h2>Player config</h2>
+                    <span>
+                      Here you can change your name, figure and its color and
+                      also define the size of game area.
+                    </span>
+                  </>
+                )}
               </div>
-            )}
+            </div>
             <hr />
             <div className="players row gap-5 justify-content-center">
               <div className="players-card col-md-6 col-lg-4 p-4 px-5">
@@ -302,7 +336,10 @@ function Main() {
                     </button>
                   </>
                 ) : (
-                  <Login onLoginPlayer={handleLoginPlayer1} />
+                  <Login
+                    errorMessage={errorMessagePlayer1}
+                    onLoginPlayer={handleLoginPlayer1}
+                  />
                 )}
               </div>
               <div className="players-card col-md-6 col-lg-4 p-4 px-5">
@@ -335,7 +372,10 @@ function Main() {
                     </button>
                   </>
                 ) : (
-                  <Login onLoginPlayer={handleLoginPlayer2} />
+                  <Login
+                    errorMessage={errorMessagePlayer2}
+                    onLoginPlayer={handleLoginPlayer2}
+                  />
                 )}
               </div>
             </div>

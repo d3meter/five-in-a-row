@@ -30,6 +30,7 @@ export const login = function (email, password, userNumber) {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode, errorMessage);
+      throw error;
     });
 };
 

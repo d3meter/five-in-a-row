@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import "./css/PlayerConfig.css"
+import miniLoader from "../imgs/miniloader.gif";
 
 function PlayerConfig({
   user,
@@ -10,6 +12,14 @@ function PlayerConfig({
   onColorChange,
   onFigureChange,
 }) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  });
+
   const handleLogout = () => {
     onLogoutPlayer();
   };
@@ -27,7 +37,14 @@ function PlayerConfig({
   };
 
   return (
-    <div>
+    <div className="PlayerConfig">
+      {isLoading ? (
+        <div className="loader-container">
+          <img className="mini-loader" src={miniLoader} alt="loading..." />
+        </div>
+      ) : (
+        <>
+
       <p>{user.email}</p>
       <button onClick={handleLogout}>Logout</button>
       <input
@@ -63,6 +80,8 @@ function PlayerConfig({
         <option value="red">red</option>
 
       </select>
+      </>
+      )}
     </div>
   );
 }
