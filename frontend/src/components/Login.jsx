@@ -16,7 +16,7 @@ function Login({ onLoginPlayer, errorMessage }) {
 
   return (
     <div className="Login">
-      <form className="row gap-2 justify-content-center">
+      <form className="row gap-2">
         <div className="form-group row w-100">
           <input
             type="email"
@@ -44,13 +44,15 @@ function Login({ onLoginPlayer, errorMessage }) {
             </button>
           </div>
         </div>
-        <div className="form-group row w-40">
+        <div className="form-group w-40 d-flex justify-content-center">
           <button onClick={handleLog} className="btn btn-success px-4">
             LOGIN
           </button>
         </div>
       </form>
-      {errorMessage && <p className="text-danger text-center py-2">{errorMessage}</p>}
+      {errorMessage && (
+        <p className="text-danger text-center py-2">{errorMessage}</p>
+      )}
     </div>
   );
 }

@@ -13,6 +13,7 @@ import {
   updatePlayer2Data,
   updateBoardSize,
 } from "../admin/gameData";
+import playButton from "../imgs/play.png";
 import circle from "../imgs/figures/circle.png";
 import cross from "../imgs/figures/cross.png";
 import square from "../imgs/figures/square.png";
@@ -24,8 +25,6 @@ function Main() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoggedOut, setIsLoggedOut] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
-  const [playersDataInvalid, setPlayersDataInvalid] = useState(false);
 
   const [user1, setUser1] = useState(null);
   const [errorMessagePlayer1, setErrorMessagePlayer1] = useState(null);
@@ -115,30 +114,36 @@ function Main() {
 
   const onNameChangeP1 = (value) => {
     setNameOfUser1(value);
+    setIsReadyUser1(false);
   };
 
   const onNameChangeP2 = (value) => {
     setNameOfUser2(value);
+    setIsReadyUser2(false);
   };
 
   const onColorChangeP1 = (value) => {
     setColorOfUser1(value);
     handleImgClassP1(value);
+    setIsReadyUser1(false);
   };
 
   const onColorChangeP2 = (value) => {
     setColorOfUser2(value);
     handleImgClassP2(value);
+    setIsReadyUser2(false);
   };
 
   const onFigureChangeP1 = (value) => {
     setFigureOfUser1(value);
     handleImgSrcChangeP1(value);
+    setIsReadyUser1(false);
   };
 
   const onFigureChangeP2 = (value) => {
     setFigureOfUser2(value);
     handleImgSrcChangeP2(value);
+    setIsReadyUser2(false);
   };
 
   const handleImgSrcChangeP1 = (value) => {
@@ -164,7 +169,7 @@ function Main() {
       (isReadyUser2 && colorOfUser1 === colorOfUser2) ||
       (isReadyUser2 && figureOfUser1 === figureOfUser2)
     ) {
-      console.log("invalid");
+      setErrorMessagePlayer1("Colors, figures must be different!");
     } else {
       setIsReadyUser1((prevState) => !prevState);
     }
@@ -175,7 +180,7 @@ function Main() {
       (isReadyUser1 && colorOfUser1 === colorOfUser2) ||
       (isReadyUser1 && figureOfUser1 === figureOfUser2)
     ) {
-      console.log("invalid");
+      setErrorMessagePlayer2("Colors, figures must be different!");
     } else {
       setIsReadyUser2((prevState) => !prevState);
     }
@@ -274,16 +279,6 @@ function Main() {
             src={ticTacToe}
             alt="tic-tac-toe"
           />
-          <img
-            className="bg-content right-bottom"
-            src={ticTacToe}
-            alt="tic-tac-toe"
-          />
-          <img
-            className="bg-content left-bottom"
-            src={ticTacToe}
-            alt="tic-tac-toe"
-          />
 
           <div className="container">
             <div className="row">
@@ -309,7 +304,6 @@ function Main() {
             <hr />
             <div className="players row gap-5 justify-content-center">
               <div className="players-card col-md-6 col-lg-4 p-4 px-5">
-                <h1>Player 1</h1>
                 {!!user1 ? (
                   <>
                     <PlayerConfig
@@ -325,17 +319,21 @@ function Main() {
                       isReadyUser={isReadyUser1}
                       imageSrcUser={imageSrcUser1}
                       imgClassUser={imgClassUser1}
+                      errorMessage={errorMessagePlayer1}
+                      setErrorMessagePlayer={setErrorMessagePlayer1}
                     />
                   </>
                 ) : (
-                  <Login
-                    errorMessage={errorMessagePlayer1}
-                    onLoginPlayer={handleLoginPlayer1}
-                  />
+                  <>
+                    <h1>Player 1</h1>
+                    <Login
+                      errorMessage={errorMessagePlayer1}
+                      onLoginPlayer={handleLoginPlayer1}
+                    />
+                  </>
                 )}
               </div>
               <div className="players-card col-md-6 col-lg-4 p-4 px-5">
-                <h1>Player 2</h1>
                 {!!user2 ? (
                   <PlayerConfig
                     user={user2}
@@ -350,12 +348,17 @@ function Main() {
                     isReadyUser={isReadyUser2}
                     imageSrcUser={imageSrcUser2}
                     imgClassUser={imgClassUser2}
+                    errorMessage={errorMessagePlayer2}
+                    setErrorMessagePlayer={setErrorMessagePlayer2}
                   />
                 ) : (
-                  <Login
-                    errorMessage={errorMessagePlayer2}
-                    onLoginPlayer={handleLoginPlayer2}
-                  />
+                  <>
+                    <h1>Player 2</h1>
+                    <Login
+                      errorMessage={errorMessagePlayer2}
+                      onLoginPlayer={handleLoginPlayer2}
+                    />
+                  </>
                 )}
               </div>
             </div>
@@ -372,23 +375,31 @@ function Main() {
                 </Link>
               </div>
             ) : (
-              <div className="row text-center collapse-section">
-                <h1>Board size:</h1>
-                <select
-                  onChange={(event) => setSelectedBoardSize(event.target.value)}
-                  name="board-size"
-                  id="board-size"
-                  value={selectedBoardSize}
+              <div className="collapse-section container d-flex flex-column pb-3">
+                <h3>Board size:</h3>
+                <div className="row d-flex justify-content-center pb-2 w-100">
+                  <select
+                    className="bs-select"
+                    onChange={(event) =>
+                      setSelectedBoardSize(event.target.value)
+                    }
+                    name="board-size"
+                    id="board-size"
+                    value={selectedBoardSize}
+                  >
+                    <option value="10">10 x 10</option>
+                    <option value="15">15 x 15</option>
+                    <option value="19">19 x 19</option>
+                    <option value="24">24 x 24</option>
+                  </select>
+                </div>
+                <Link
+                  className={`game-button ${isDisabled ? "disabled" : ""}`}
+                  aria-disabled={isDisabled}
+                  to="/game"
+                  onClick={handleGoButtonClick}
                 >
-                  <option value="10">10 x 10</option>
-                  <option value="15">15 x 15</option>
-                  <option value="19">19 x 19</option>
-                  <option value="24">24 x 24</option>
-                </select>
-                <Link to="/game">
-                  <button disabled={isDisabled} onClick={handleGoButtonClick}>
-                    Go
-                  </button>
+                  <img src={playButton} alt="GO" />
                 </Link>
               </div>
             )}

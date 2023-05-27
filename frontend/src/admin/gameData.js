@@ -1,11 +1,11 @@
 let player1Data = {
- name: "player1",
+ name: "Player1",
  color: "red",
  figure: "circle"
 };
 
 let player2Data = {
- name: "player2",
+ name: "Player2",
  color: "blue",
  figure: "cross"
 };
