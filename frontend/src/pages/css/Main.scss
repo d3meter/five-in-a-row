@@ -16,13 +16,14 @@
       width: 100%;
       height: 380px;
       .players-card {
+        height: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 10px;
         background-color: #ffffff42;
         border-radius: 5px;
-        img {
+        .figure {
           width: 30px;
           height: auto;
         }

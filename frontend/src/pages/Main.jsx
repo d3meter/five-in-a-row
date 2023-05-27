@@ -272,14 +272,14 @@ function Main() {
             )}
             <hr />
             <div className="players row gap-5 justify-content-center">
-              <div className="players-card col-md-5 col-lg-5 p-4 px-5">
+              <div className="players-card col-md-6 col-lg-4 p-4 px-5">
                 <h1>Player 1</h1>
                 {!!user1 ? (
                   <>
                     <p>{nameOfUser1}</p>
                     {imageSrcUser1 && (
                       <img
-                        className={imgClassUser1}
+                        className={"figure " + imgClassUser1}
                         src={imageSrcUser1}
                         alt="figure"
                       />
@@ -305,14 +305,14 @@ function Main() {
                   <Login onLoginPlayer={handleLoginPlayer1} />
                 )}
               </div>
-              <div className="players-card col-md-5 col-lg-5 p-4 px-5">
+              <div className="players-card col-md-6 col-lg-4 p-4 px-5">
                 <h1>Player 2</h1>
                 {!!user2 ? (
                   <>
                     <p>{nameOfUser2}</p>
                     {imageSrcUser2 && (
                       <img
-                        className={imgClassUser2}
+                        className={"figure " + imgClassUser2}
                         src={imageSrcUser2}
                         alt="figure"
                       />
