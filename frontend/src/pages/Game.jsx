@@ -24,7 +24,7 @@ function Game() {
     isWinner === player2Data.name;
 
   useEffect(() => {
-    renderGrid()
+    renderGrid();
   }, []);
 
   const renderGrid = () => {
@@ -37,7 +37,7 @@ function Game() {
         .map(() => Array(parsedBoardSize).fill(0));
       setGrid(initialGrid);
     }
-  }
+  };
 
   useEffect(() => {
     const storedPlayer1Data = JSON.parse(localStorage.getItem("player1Data"));
@@ -200,7 +200,7 @@ function Game() {
             data-placement="bottom"
             title="Start a new game"
           >
-            <img src={newGame} alt="new game" onClick={handleNewGame}/>
+            <img src={newGame} alt="new game" onClick={handleNewGame} />
           </button>
           <button
             className="game-button"
@@ -233,6 +233,11 @@ function Game() {
           </div>
         </div>
       </div>
+      {isWinner && (
+        <div className="pop-up">
+          <h1>{isWinner} won!</h1>
+        </div>
+      )}
       <div className="GameBoard">
         {grid.map((row, rowIndex) => (
           <div className="row" key={rowIndex}>

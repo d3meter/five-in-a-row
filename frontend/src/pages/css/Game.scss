@@ -8,6 +8,7 @@
   flex-direction: column;
   box-sizing: border-box;
   overflow: auto;
+  position: absolute;
   .game-header {
     width: auto;
     display: flex;
@@ -17,6 +18,11 @@
     gap: 50px;
     color: white;
     padding-block: 6px;
+    position: fixed;
+    top: 0;
+    background-color: black;
+    padding-inline: 6px;
+    z-index: 2;
     .player-container {
       display: flex;
       align-items: center;
@@ -56,20 +62,34 @@
       }
     }
   }
+  .pop-up {
+    width: auto;
+    color: white;
+    position: fixed;
+    bottom: 20px;
+    background-color: black;
+    padding: 20px;
+    z-index: 2;
+    border-radius: 5px;
+    h1 {
+     margin: 0;
+    }
+  }
   .GameBoard {
-   width: fit-content;
-   box-sizing: border-box;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   overflow: auto;
-   padding-inline: 70px;
-   padding-block: 30px;
-   .row {
-    display: flex;
-    flex-wrap: nowrap;
+    width: fit-content;
     box-sizing: border-box;
-   }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    padding-inline: 70px;
+    padding-top: 130px;
+    padding-bottom: 30px;
+    .row {
+      display: flex;
+      flex-wrap: nowrap;
+      box-sizing: border-box;
+    }
   }
 }

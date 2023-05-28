@@ -11,15 +11,16 @@
   margin-inline: auto;
 }
 .Main .container {
-  width: 100%;
   height: auto;
 }
 .Main .container .players {
   width: 100%;
   min-height: 440px;
   height: auto;
+  margin: 0;
 }
 .Main .container .players .players-card {
+  min-width: 400px;
   min-height: 100%;
   height: auto;
   display: flex;
@@ -81,4 +82,9 @@
   right: -10%;
   top: -20%;
   transform: rotate(240deg);
+}
+@media screen and (max-width: 1400px) {
+  .Main .bg-content {
+    display: none;
+  }
 }/*# sourceMappingURL=Main.css.map */
