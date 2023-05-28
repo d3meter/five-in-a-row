@@ -24,7 +24,6 @@ import ticTacToe from "../imgs/tic-tac-toe.png";
 function Main({ isLoading }) {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoggedOut, setIsLoggedOut] = useState(false);
-  /*  const [isLoading, setIsLoading] = useState(true); */
 
   const [user1, setUser1] = useState(null);
   const [errorMessagePlayer1, setErrorMessagePlayer1] = useState(null);
@@ -54,12 +53,6 @@ function Main({ isLoading }) {
     star,
     triangle,
   };
-
-  /*   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  }); */
 
   useEffect(() => {
     loadPlayersData();

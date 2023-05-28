@@ -66,6 +66,20 @@ span {
 hr {
   opacity: 1;
 }
+.loader-container {
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-container .mini-loader {
+  width: 120px;
+  height: auto;
+  filter: invert(40%) sepia(100%) saturate(500%) hue-rotate(120deg);
+}
 
 body {
   width: 100vw;
@@ -75,6 +89,7 @@ body {
   background-color: #181717;
   overflow-x: hidden;
   min-width: 280px;
+  color: white;
 }
 
 @media screen and (max-width: 1400px) {

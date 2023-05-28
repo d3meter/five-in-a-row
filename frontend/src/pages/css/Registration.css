@@ -1,24 +1,5 @@
 .Registration {
   width: 100%;
-  min-width: inherit;
   height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-top: 74px;
-  background-color: white;
-}
-.Registration .container {
-  width: 30%;
-  height: auto;
-  text-align: center;
-}
-.Registration .container form {
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  padding-top: 30px;
 }/*# sourceMappingURL=Registration.css.map */
