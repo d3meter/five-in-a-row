@@ -8,7 +8,6 @@
   flex-direction: column;
   box-sizing: border-box;
   overflow: auto;
-  position: absolute;
   .game-header {
     width: auto;
     display: flex;
@@ -119,18 +118,18 @@
   @media screen and (max-width: 640px) {
     .game-header {
       h2 {
-        font-size: 5vw;
+        font-size: 50px;
       }
       p {
-        font-size: 3vw;
+        font-size: 30px;
       }
       .controller {
-        gap: 15px;
+        gap: 25px;
         .game-button {
           width: auto;
           height: auto;
           img {
-            width: 40px;
+            width: 60px;
           }
         }
       }
@@ -139,10 +138,13 @@
         row-gap: 5px;
         .section-right {
           img {
-            width: 30px;
+            width: 40px;
           }
         }
       }
+    }
+    .GameBoard {
+     padding-top: 163px;
     }
   }
 }

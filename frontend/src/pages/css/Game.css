@@ -9,7 +9,6 @@
   flex-direction: column;
   box-sizing: border-box;
   overflow: auto;
-  position: absolute;
 }
 .Game .game-header {
   width: auto;
@@ -118,26 +117,29 @@
 }
 @media screen and (max-width: 640px) {
   .Game .game-header h2 {
-    font-size: 5vw;
+    font-size: 50px;
   }
   .Game .game-header p {
-    font-size: 3vw;
+    font-size: 30px;
   }
   .Game .game-header .controller {
-    gap: 15px;
+    gap: 25px;
   }
   .Game .game-header .controller .game-button {
     width: auto;
     height: auto;
   }
   .Game .game-header .controller .game-button img {
-    width: 40px;
+    width: 60px;
   }
   .Game .game-header .player-container {
     flex-wrap: wrap;
     row-gap: 5px;
   }
   .Game .game-header .player-container .section-right img {
-    width: 30px;
+    width: 40px;
+  }
+  .Game .GameBoard {
+    padding-top: 163px;
   }
 }/*# sourceMappingURL=Game.css.map */
