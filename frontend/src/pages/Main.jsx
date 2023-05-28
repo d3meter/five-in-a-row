@@ -21,10 +21,10 @@ import star from "../imgs/figures/star.png";
 import triangle from "../imgs/figures/triangle.png";
 import ticTacToe from "../imgs/tic-tac-toe.png";
 
-function Main() {
+function Main({ isLoading }) {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoggedOut, setIsLoggedOut] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  /*  const [isLoading, setIsLoading] = useState(true); */
 
   const [user1, setUser1] = useState(null);
   const [errorMessagePlayer1, setErrorMessagePlayer1] = useState(null);
@@ -55,11 +55,11 @@ function Main() {
     triangle,
   };
 
-  useEffect(() => {
+  /*   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
-  });
+  }); */
 
   useEffect(() => {
     loadPlayersData();
@@ -404,7 +404,11 @@ function Main() {
                   onClick={handleGoButtonClick}
                   data-toggle="tooltip"
                   data-placement="right"
-                  title={isDisabled ? "Both players must be 'READY' first." : "Let's play!"}
+                  title={
+                    isDisabled
+                      ? "Both players must be 'READY' first."
+                      : "Let's play!"
+                  }
                 >
                   <img src={goButton} alt="GO" />
                 </Link>
