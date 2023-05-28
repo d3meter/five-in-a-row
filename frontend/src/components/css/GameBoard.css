@@ -8,6 +8,7 @@
   justify-content: center;
   overflow: auto;
   padding-inline: 70px;
+  padding-block: 30px;
 }
 .GameBoard .row {
   display: flex;

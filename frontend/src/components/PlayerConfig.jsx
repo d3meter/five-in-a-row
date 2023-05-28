@@ -24,7 +24,7 @@ function PlayerConfig({
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+    }, 1200);
   });
 
   const handleLogout = () => {

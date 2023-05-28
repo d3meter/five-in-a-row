@@ -11,15 +11,48 @@
   overflow: auto;
 }
 .Game .game-header {
-  width: 70%;
+  width: auto;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  color: white;
+  padding-block: 6px;
+}
+.Game .game-header .player-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-  background-color: white;
+  gap: 20px;
+  height: 100%;
+  width: auto;
+  padding-inline: 20px;
+  padding-block: 8px;
+  box-sizing: border-box;
+  border-radius: 5px;
 }
-.Game .game-header .player-container img {
-  width: 30px;
+.Game .game-header .player-container .section-left {
+  text-align: center;
+}
+.Game .game-header .player-container .section-left p,
+.Game .game-header .player-container .section-left h2 {
+  margin: 0;
+  padding: 0;
+}
+.Game .game-header .player-container .section-right img {
+  width: 50px;
+  height: auto;
+}
+.Game .game-header .active-player {
+  background-color: rgba(255, 255, 255, 0.2588235294);
+}
+.Game .game-header .controller {
+  width: auto;
+  display: flex;
+  gap: 30px;
+}
+.Game .game-header .controller img {
+  width: 60px;
   height: auto;
 }/*# sourceMappingURL=Game.css.map */
