@@ -17,7 +17,7 @@ function Login({ onLoginPlayer, errorMessage }) {
   return (
     <div className="Login">
       <form className="row gap-2">
-        <div className="form-group row w-100">
+        <div className="form-group row w-100 m-0">
           <input
             type="email"
             className="form-control"
@@ -26,7 +26,7 @@ function Login({ onLoginPlayer, errorMessage }) {
             onChange={(event) => setEmail(event.target.value)}
           />
         </div>
-        <div className="form-group row w-100">
+        <div className="form-group row w-100 m-0">
           <div className="input-group p-0">
             <input
               type={showPassword ? "text" : "password"}
