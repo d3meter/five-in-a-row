@@ -8,6 +8,7 @@
   flex-direction: column;
   box-sizing: border-box;
   overflow: auto;
+  position: relative;
   .game-header {
     width: auto;
     display: flex;
@@ -71,6 +72,9 @@
     padding: 20px;
     z-index: 2;
     border-radius: 5px;
+    height: fit-content;
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: center;
     h1 {
       margin: 0;
     }
@@ -84,7 +88,7 @@
     justify-content: center;
     overflow: auto;
     padding-inline: 70px;
-    padding-top: 130px;
+    padding-top: 110px;
     padding-bottom: 30px;
     .row {
       display: flex;
@@ -101,15 +105,12 @@
       justify-content: space-evenly;
     }
     .pop-up {
-      width: 100%;
       bottom: 0;
-      left: 0;
-      text-align: center;
     }
   }
   @media screen and (max-width: 800px) {
     .game-header {
-      gap: 0;
+      gap: 20px;
       .controller {
         gap: 2px;
       }
@@ -143,8 +144,11 @@
         }
       }
     }
+    .pop-up {
+      top: 400px;
+    }
     .GameBoard {
-     padding-top: 163px;
+      padding-top: 200px;
     }
   }
 }
