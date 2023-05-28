@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./css/Square.css";
 
 function Square({
@@ -11,10 +11,17 @@ function Square({
   player2Data,
   player1Figure,
   player2Figure,
+  resetSquare
 }) {
   const [isDisabled, setIsDisabled] = useState(false);
   const [imageSrc, setImageSrc] = useState("");
   const [figureColor, setFigureColor] = useState("");
+
+  useEffect(() => {
+    setIsDisabled(false);
+    setImageSrc("");
+    setFigureColor("");
+  }, [resetSquare]);
 
   const onChangePlayersTurn = () => {
     handleChangePlayersTurn();
@@ -56,9 +63,7 @@ function Square({
       : {};
 
   const squareStyle =
-    isWinningElement && isGameOver
-      ? { backgroundColor: "#534341" }
-      : {};
+    isWinningElement && isGameOver ? { backgroundColor: "#534341" } : {};
 
   return (
     <button
