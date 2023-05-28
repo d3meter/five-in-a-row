@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./css/Main.css";
+
 import { Link } from "react-router-dom";
-import Login from "../components/Login";
 import { login, logOut } from "../admin/auth";
-import PlayerConfig from "../components/PlayerConfig";
-import Loader from "../components/Loader";
 import {
   player1Data,
   player2Data,
@@ -13,6 +11,9 @@ import {
   updatePlayer2Data,
   updateBoardSize,
 } from "../admin/gameData";
+import Login from "../components/Login";
+import PlayerConfig from "../components/PlayerConfig";
+import Loader from "../components/Loader";
 import goButton from "../imgs/play.png";
 import circle from "../imgs/figures/circle.png";
 import cross from "../imgs/figures/cross.png";
@@ -84,6 +85,14 @@ function Main({ isLoading }) {
       setSelectedBoardSize(parsedBoardSize);
     }
   }, []);
+
+  useEffect(() => {
+    setIsLoggedOut(!(user1 && user2));
+  }, [user1, user2]);
+
+  useEffect(() => {
+    setIsDisabled(!(isReadyUser1 && isReadyUser2));
+  }, [isReadyUser1, isReadyUser2]);
 
   const loadPlayersData = () => {
     const storedPlayer1Data = JSON.parse(localStorage.getItem("player1Data"));
@@ -178,14 +187,6 @@ function Main({ isLoading }) {
       setIsReadyUser2((prevState) => !prevState);
     }
   };
-
-  useEffect(() => {
-    setIsLoggedOut(!(user1 && user2));
-  }, [user1, user2]);
-
-  useEffect(() => {
-    setIsDisabled(!(isReadyUser1 && isReadyUser2));
-  }, [isReadyUser1, isReadyUser2]);
 
   const handleLoginPlayer1 = async (email, password) => {
     if (user2?.email !== email) {

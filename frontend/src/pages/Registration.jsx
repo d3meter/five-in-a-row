@@ -1,18 +1,21 @@
 import React, { useState, useRef } from "react";
 import "./css/Registration.css";
+
 import { useNavigate } from "react-router-dom";
 import { registration } from "../admin/auth";
 import miniLoader from "../imgs/miniloader.gif";
 
 function Registration() {
+  const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfrim, setShowPasswordConfirm] = useState(false);
-  const [email, setEmail] = useState("");
-  const [finished, setFinished] = useState(false);
   const passwordRef = useRef(null);
   const passwordConfirmRef = useRef(null);
-  const navigate = useNavigate();
+
+  const [finished, setFinished] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleReg = async () => {
     const password = passwordRef.current.value;

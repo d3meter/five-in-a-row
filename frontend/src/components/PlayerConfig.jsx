@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./css/PlayerConfig.css";
+
 import miniLoader from "../imgs/miniloader.gif";
 
 function PlayerConfig({
@@ -16,7 +17,7 @@ function PlayerConfig({
   imgClassUser,
   imageSrcUser,
   errorMessage,
-  setErrorMessagePlayer
+  setErrorMessagePlayer,
 }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isNameValid, setIsNameValid] = useState(true);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./css/Game.css";
+
 import { Link } from "react-router-dom";
 import Square from "../components/Square";
 import newGame from "../imgs/reload.png";
@@ -27,18 +28,6 @@ function Game() {
     renderGrid();
   }, []);
 
-  const renderGrid = () => {
-    const storedBoardSize = localStorage.getItem("boardSize");
-    if (storedBoardSize) {
-      const parsedBoardSize = parseInt(storedBoardSize);
-
-      const initialGrid = Array(parsedBoardSize)
-        .fill()
-        .map(() => Array(parsedBoardSize).fill(0));
-      setGrid(initialGrid);
-    }
-  };
-
   useEffect(() => {
     const storedPlayer1Data = JSON.parse(localStorage.getItem("player1Data"));
     setPlayer1Data(storedPlayer1Data);
@@ -52,6 +41,18 @@ function Game() {
     const figureSrcP2 = JSON.parse(localStorage.getItem("player2ImgSrc"));
     setPlayer2Figure(figureSrcP2);
   }, []);
+
+  const renderGrid = () => {
+    const storedBoardSize = localStorage.getItem("boardSize");
+    if (storedBoardSize) {
+      const parsedBoardSize = parseInt(storedBoardSize);
+
+      const initialGrid = Array(parsedBoardSize)
+        .fill()
+        .map(() => Array(parsedBoardSize).fill(0));
+      setGrid(initialGrid);
+    }
+  };
 
   const checkWin = (grid, rowIndex, columnIndex, playersTurn) => {
     const startPoint = grid[rowIndex][columnIndex];

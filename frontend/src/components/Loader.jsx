@@ -1,5 +1,6 @@
 import React from "react";
 import "./css/Loader.css";
+
 import loaderAnim from "../imgs/tic-tac-loader.gif";
 
 function Loader() {

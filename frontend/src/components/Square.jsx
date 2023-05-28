@@ -11,7 +11,7 @@ function Square({
   player2Data,
   player1Figure,
   player2Figure,
-  resetSquare
+  resetSquare,
 }) {
   const [isDisabled, setIsDisabled] = useState(false);
   const [imageSrc, setImageSrc] = useState("");
