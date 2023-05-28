@@ -77,7 +77,7 @@ function PlayerConfig({
             </div>
             <form className="px-4 pt-2 d-flex flex-column gap-2">
               <div className="form-group row ">
-                <label for="name" class="col-sm-4 col-form-label">
+                <label htmlFor="name" className="col-sm-4 col-form-label">
                   Name:
                 </label>
                 <div className="col-sm-8">
@@ -96,7 +96,7 @@ function PlayerConfig({
                 </div>
               </div>
               <div className="form-group row">
-                <label for="figure" class="col-sm-4 col-form-label">
+                <label htmlFor="figure" className="col-sm-4 col-form-label">
                   Figure:
                 </label>
                 <div className="col-sm-8">
@@ -116,7 +116,7 @@ function PlayerConfig({
                 </div>
               </div>
               <div className="form-group row">
-                <label for="color" class="col-sm-4 col-form-label">
+                <label htmlFor="color" className="col-sm-4 col-form-label">
                   Color:
                 </label>
                 <div className="col-sm-8">

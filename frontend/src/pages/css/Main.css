@@ -54,6 +54,15 @@
   background-color: rgba(0, 0, 0, 0.4);
   font-size: x-large;
 }
+.Main .container .collapse-section .disabled {
+  cursor: default;
+}
+.Main .container .collapse-section .disabled img {
+  opacity: 0.2;
+}
+.Main .container .collapse-section .disabled img:hover {
+  height: 70%;
+}
 .Main .container .collapse-section.hide {
   height: 0;
   transition: height 2s ease-out;

@@ -51,6 +51,15 @@
         background-color: rgba(0, 0, 0, 0.4);
         font-size: x-large;
       }
+      .disabled {
+        cursor: default;
+        img {
+          opacity: 0.2;
+        }
+        img:hover {
+          height: 70%;
+        }
+      }
     }
 
     .collapse-section.hide {

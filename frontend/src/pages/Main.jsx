@@ -13,7 +13,7 @@ import {
   updatePlayer2Data,
   updateBoardSize,
 } from "../admin/gameData";
-import playButton from "../imgs/play.png";
+import goButton from "../imgs/play.png";
 import circle from "../imgs/figures/circle.png";
 import cross from "../imgs/figures/cross.png";
 import square from "../imgs/figures/square.png";
@@ -238,7 +238,12 @@ function Main() {
     setIsReadyUser2(false);
   };
 
-  const handleGoButtonClick = () => {
+  const handleGoButtonClick = (event) => {
+    if (isDisabled) {
+      event.preventDefault();
+      return;
+    }
+
     const player1Data = {
       email: user1.email,
       name: nameOfUser1,
@@ -395,11 +400,13 @@ function Main() {
                 </div>
                 <Link
                   className={`game-button ${isDisabled ? "disabled" : ""}`}
-                  aria-disabled={isDisabled}
                   to="/game"
                   onClick={handleGoButtonClick}
+                  data-toggle="tooltip"
+                  data-placement="right"
+                  title={isDisabled ? "Both players must be 'READY' first." : "Let's play!"}
                 >
-                  <img src={playButton} alt="GO" />
+                  <img src={goButton} alt="GO" />
                 </Link>
               </div>
             )}
