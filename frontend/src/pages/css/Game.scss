@@ -23,6 +23,7 @@
     background-color: black;
     padding-inline: 6px;
     z-index: 2;
+    box-sizing: border-box;
     .player-container {
       display: flex;
       align-items: center;
@@ -72,7 +73,7 @@
     z-index: 2;
     border-radius: 5px;
     h1 {
-     margin: 0;
+      margin: 0;
     }
   }
   .GameBoard {
@@ -90,6 +91,58 @@
       display: flex;
       flex-wrap: nowrap;
       box-sizing: border-box;
+    }
+  }
+
+  @media screen and (max-width: 1400px) {
+    .game-header {
+      width: 100%;
+      left: 0;
+      right: 0;
+      justify-content: space-evenly;
+    }
+    .pop-up {
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      text-align: center;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .game-header {
+      gap: 0;
+      .controller {
+        gap: 2px;
+      }
+    }
+  }
+  @media screen and (max-width: 640px) {
+    .game-header {
+      h2 {
+        font-size: 5vw;
+      }
+      p {
+        font-size: 3vw;
+      }
+      .controller {
+        gap: 15px;
+        .game-button {
+          width: auto;
+          height: auto;
+          img {
+            width: 40px;
+          }
+        }
+      }
+      .player-container {
+        flex-wrap: wrap;
+        row-gap: 5px;
+        .section-right {
+          img {
+            width: 30px;
+          }
+        }
+      }
     }
   }
 }

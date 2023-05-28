@@ -69,11 +69,18 @@ hr {
 
 body {
   width: 100vw;
+  height: 100vh;
   position: relative;
   font-family: "Quicksand", sans-serif;
   background-color: #181717;
   overflow-x: hidden;
-  height: 100vh;
+  min-width: 280px;
+}
+
+@media screen and (max-width: 1400px) {
+  body {
+    overflow-x: auto;
+  }
 }
 
 .figure-orange {
@@ -102,21 +109,4 @@ body {
 
 .figure-red {
   filter: invert(70%) sepia(100%) saturate(500%) hue-rotate(320deg);
-}
-
-/* #root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-} */
-
-.App {
-  /*   min-height: 100vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center; */
 }

@@ -25,6 +25,7 @@
   background-color: black;
   padding-inline: 6px;
   z-index: 2;
+  box-sizing: border-box;
 }
 .Game .game-header .player-container {
   display: flex;
@@ -92,4 +93,51 @@
   display: flex;
   flex-wrap: nowrap;
   box-sizing: border-box;
+}
+@media screen and (max-width: 1400px) {
+  .Game .game-header {
+    width: 100%;
+    left: 0;
+    right: 0;
+    justify-content: space-evenly;
+  }
+  .Game .pop-up {
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+  }
+}
+@media screen and (max-width: 800px) {
+  .Game .game-header {
+    gap: 0;
+  }
+  .Game .game-header .controller {
+    gap: 2px;
+  }
+}
+@media screen and (max-width: 640px) {
+  .Game .game-header h2 {
+    font-size: 5vw;
+  }
+  .Game .game-header p {
+    font-size: 3vw;
+  }
+  .Game .game-header .controller {
+    gap: 15px;
+  }
+  .Game .game-header .controller .game-button {
+    width: auto;
+    height: auto;
+  }
+  .Game .game-header .controller .game-button img {
+    width: 40px;
+  }
+  .Game .game-header .player-container {
+    flex-wrap: wrap;
+    row-gap: 5px;
+  }
+  .Game .game-header .player-container .section-right img {
+    width: 30px;
+  }
 }/*# sourceMappingURL=Game.css.map */
