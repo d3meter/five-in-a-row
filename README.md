@@ -28,3 +28,8 @@ https://react-five-in-a-row.web.app/
  - React
  - React Router
  - Firebase (auth and hosting)
+
+***Start with NPM***
+1. cd frontend
+2. npm install
+3. npm start
