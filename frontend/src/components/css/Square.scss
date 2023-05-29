@@ -1,15 +1,15 @@
 .Square {
- height: 60px;
- width: 60px;
- background-color: inherit;
- border: 2px solid rgba(255, 255, 255, 0.5);
- padding: unset;
- box-sizing: border-box;
-img {
- width: 85%;
- height: auto;
-}
+  height: 60px;
+  width: 60px;
+  background-color: inherit;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  padding: unset;
+  box-sizing: border-box;
+  img {
+    width: 85%;
+    height: auto;
+  }
 }
 .Square:hover {
- background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
 }

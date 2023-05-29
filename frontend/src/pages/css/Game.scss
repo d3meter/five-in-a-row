@@ -9,62 +9,8 @@
   box-sizing: border-box;
   overflow: auto;
   position: relative;
-  .game-header {
-    width: auto;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 50px;
-    color: white;
-    padding-block: 6px;
-    position: fixed;
-    top: 0;
-    background-color: black;
-    padding-inline: 6px;
-    z-index: 2;
-    box-sizing: border-box;
-    .player-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      height: 100%;
-      width: auto;
-      padding-inline: 20px;
-      padding-block: 8px;
-      box-sizing: border-box;
-      border-radius: 5px;
-      .section-left {
-        text-align: center;
-        p,
-        h2 {
-          margin: 0;
-          padding: 0;
-        }
-      }
-      .section-right {
-        img {
-          width: 50px;
-          height: auto;
-        }
-      }
-    }
-    .active-player {
-      background-color: #ffffff42;
-    }
-    .controller {
-      width: auto;
-      display: flex;
-      gap: 30px;
-      img {
-        width: 60px;
-        height: auto;
-      }
-    }
-  }
   .pop-up {
-    width: auto;
+    width: fit-content;
     color: white;
     position: fixed;
     bottom: 20px;
@@ -98,49 +44,18 @@
   }
 
   @media screen and (max-width: 1400px) {
-    .game-header {
-      width: 100%;
-      left: 0;
-      right: 0;
-      justify-content: space-evenly;
-    }
     .pop-up {
       bottom: 0;
     }
   }
-  @media screen and (max-width: 800px) {
-    .game-header {
-      gap: 20px;
-      .controller {
-        gap: 2px;
-      }
-    }
-  }
+
   @media screen and (max-width: 640px) {
-    .game-header {
-      h2 {
-        font-size: 50px;
-      }
-      p {
-        font-size: 30px;
-      }
-      .controller {
-        gap: 25px;
-        .game-button {
-          width: auto;
-          height: auto;
-          img {
-            width: 60px;
-          }
-        }
-      }
-      .player-container {
-        flex-wrap: wrap;
-        row-gap: 5px;
-        .section-right {
-          img {
-            width: 40px;
-          }
+    .player-container {
+      flex-wrap: wrap;
+      row-gap: 5px;
+      .section-right {
+        img {
+          width: 40px;
         }
       }
     }

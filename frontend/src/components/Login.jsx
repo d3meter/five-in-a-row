@@ -6,12 +6,14 @@ function Login({ onLoginPlayer, errorMessage }) {
   const [showPassword, setShowPassword] = useState(false);
   const passwordRef = useRef(null);
 
+  // Call onLoginPlayer with email and password 
   const handleLog = (event) => {
     event.preventDefault();
     const password = passwordRef.current.value;
     onLoginPlayer(email, password);
   };
 
+  // Show/hide password
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   return (

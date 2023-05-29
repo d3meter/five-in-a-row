@@ -17,6 +17,7 @@ function Square({
   const [imageSrc, setImageSrc] = useState("");
   const [figureColor, setFigureColor] = useState("");
 
+  //Reset single square
   useEffect(() => {
     setIsDisabled(false);
     setImageSrc("");
@@ -27,6 +28,7 @@ function Square({
     handleChangePlayersTurn();
   };
 
+  // Fill/modify single square and call each necessary function after clicking 
   const handleClick = () => {
     if (!isGameOver) {
       handleImgSrc();
@@ -37,6 +39,7 @@ function Square({
     }
   };
 
+  // Handle the source of inserted figure depending on the player
   const handleImgSrc = () => {
     if (playersTurn === player1Data.name) {
       setImageSrc(player1Figure);
@@ -45,6 +48,7 @@ function Square({
     }
   };
 
+  // Handle the figure/player color depending on the player
   const handleFigureColor = () => {
     if (playersTurn === player1Data.name) {
       setFigureColor(player1Data.color);
@@ -53,10 +57,12 @@ function Square({
     }
   };
 
+  // Disable single square
   const handleDisabled = () => {
     setIsDisabled(true);
   };
 
+  // Dynamically changing button and square styles depending on their states
   const buttonStyle =
     isDisabled || isGameOver
       ? { backgroundColor: "inherit", filter: "none", cursor: "default" }
@@ -70,7 +76,10 @@ function Square({
       className="Square"
       onClick={handleClick}
       disabled={isDisabled}
-      style={{ ...buttonStyle, ...squareStyle }}
+      style={{
+        ...buttonStyle,
+        ...squareStyle,
+      }}
     >
       {imageSrc && (
         <img className={"figure-" + figureColor} src={imageSrc} alt="figure" />

@@ -87,13 +87,16 @@ function Main({ isLoading }) {
   }, []);
 
   useEffect(() => {
+    // Check if no user logged in
     setIsLoggedOut(!(user1 && user2));
   }, [user1, user2]);
 
   useEffect(() => {
+    // Check if one of the users are not in status: ready
     setIsDisabled(!(isReadyUser1 && isReadyUser2));
   }, [isReadyUser1, isReadyUser2]);
 
+  // Load players data from localstorage if available 
   const loadPlayersData = () => {
     const storedPlayer1Data = JSON.parse(localStorage.getItem("player1Data"));
     if (storedPlayer1Data) {
@@ -114,6 +117,7 @@ function Main({ isLoading }) {
     }
   };
 
+  // Change name, color, figure and its image source of players
   const onNameChangeP1 = (value) => {
     setNameOfUser1(value);
     setIsReadyUser1(false);
@@ -166,6 +170,7 @@ function Main({ isLoading }) {
     setImgClassUser2("figure-" + value);
   };
 
+  // Check if players' figure or color matches when the other player's status is already ready and if everything is OK then change own status ready
   const onStatusChangeP1 = () => {
     if (
       (isReadyUser2 && colorOfUser1 === colorOfUser2) ||
@@ -188,6 +193,7 @@ function Main({ isLoading }) {
     }
   };
 
+  // Check if usereamil already logged in, login players with error handling
   const handleLoginPlayer1 = async (email, password) => {
     if (user2?.email !== email) {
       try {
@@ -222,6 +228,7 @@ function Main({ isLoading }) {
     }
   };
 
+  // Logout with status reset
   const handleLogoutPlayer1 = () => {
     logOut(1).then(() => setUser1(null));
     setIsReadyUser1(false);
@@ -232,6 +239,7 @@ function Main({ isLoading }) {
     setIsReadyUser2(false);
   };
 
+  // Play game and update all the necessary data, if it is disabled prevent forwarding
   const handleGoButtonClick = (event) => {
     if (isDisabled) {
       event.preventDefault();

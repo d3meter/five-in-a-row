@@ -1,3 +1,5 @@
+// Players data and board size handling: default values, local storage operations
+
 let player1Data = {
  name: "Player1",
  color: "red",

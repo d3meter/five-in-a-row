@@ -9,6 +9,7 @@ import Game from "./pages/Game";
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
+  //Loading animation with timeout when app start or refresh
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);

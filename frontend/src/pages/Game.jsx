@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./css/Game.css";
 
-import { Link } from "react-router-dom";
 import Square from "../components/Square";
-import newGame from "../imgs/reload.png";
-import endGame from "../imgs/exit.png";
+import Header from "../components/Header";
 
 function Game() {
   const [player1Data, setPlayer1Data] = useState({});
@@ -16,7 +14,9 @@ function Game() {
   const [grid, setGrid] = useState([]);
   const [isWinner, setIsWinner] = useState(null);
   const [resetSquare, setResetSquare] = useState(false);
+  const [isDraw, setIsDraw] = useState(false);
 
+  // Check active player and winner
   const isActivePlayer1 =
     (playersTurn === player1Data.name && !isGameOver) ||
     isWinner === player1Data.name;
@@ -24,10 +24,12 @@ function Game() {
     (playersTurn === player2Data.name && !isGameOver) ||
     isWinner === player2Data.name;
 
+  // Reset grid
   useEffect(() => {
     renderGrid();
   }, []);
 
+  // Load players' and board's data from local storage
   useEffect(() => {
     const storedPlayer1Data = JSON.parse(localStorage.getItem("player1Data"));
     setPlayer1Data(storedPlayer1Data);
@@ -42,6 +44,12 @@ function Game() {
     setPlayer2Figure(figureSrcP2);
   }, []);
 
+  // Set P1 as start player
+  useEffect(() => {
+    setPlayersTurn(player1Data.name);
+  }, [player1Data]);
+
+  // Render grid based on the board size filled all matrix elements with 0 value
   const renderGrid = () => {
     const storedBoardSize = localStorage.getItem("boardSize");
     if (storedBoardSize) {
@@ -54,6 +62,7 @@ function Game() {
     }
   };
 
+  // Check if 5 in a row in all directions started from the clicked square or no more empty square available (draw)
   const checkWin = (grid, rowIndex, columnIndex, playersTurn) => {
     const startPoint = grid[rowIndex][columnIndex];
     let counterDia1 = 1;
@@ -122,9 +131,17 @@ function Game() {
       setIsWinner(playersTurn);
       console.log(`Player ${playersTurn} wins!`);
       highlightWinningElements(winningElements);
+    } else {
+      const hasEmptySquare = grid.some((row) => row.includes(0));
+      if (!hasEmptySquare) {
+        setIsGameOver(true);
+        setIsDraw(true);
+        console.log("The game is a draw!");
+      }
     }
   };
 
+  // Change style of squares with figures if someone won  
   const highlightWinningElements = (elements) => {
     const updatedGrid = [...grid];
     elements.forEach(([row, col]) => {
@@ -133,10 +150,7 @@ function Game() {
     setGrid(updatedGrid);
   };
 
-  useEffect(() => {
-    setPlayersTurn(player1Data.name);
-  }, [player1Data]);
-
+  // Switch player
   const handleChangePlayersTurn = () => {
     setPlayersTurn((prevPlayersTurn) =>
       prevPlayersTurn === player1Data.name ? player2Data.name : player1Data.name
@@ -164,105 +178,63 @@ function Game() {
     checkWin(updatedGrid, rowIndex, columnIndex, playersTurn);
   };
 
+  // Start new game, set default necessary values
   const handleNewGame = () => {
     setPlayersTurn(player1Data.name);
     setIsGameOver(false);
+    setIsDraw(false);
     setIsWinner(null);
     renderGrid();
     setResetSquare((prevReset) => !prevReset);
   };
 
   return (
-    <div className="Game">
-      <div className="game-header">
-        <div
-          className={`player-container ${
-            isActivePlayer1 ? "active-player" : ""
-          }`}
-        >
-          <div className="section-left">
-            <p>{player1Data.email}</p>
-            <h2>{player1Data.name}</h2>
+    <>
+      <Header
+        isActivePlayer1={isActivePlayer1}
+        isActivePlayer2={isActivePlayer2}
+        player1Data={player1Data}
+        player2Data={player2Data}
+        player1Figure={player1Figure}
+        player2Figure={player2Figure}
+        handleNewGame={handleNewGame}
+      />
+      <div className="Game">
+        {isWinner && (
+          <div className="pop-up">
+            <h1>{isWinner} won!</h1>
           </div>
-          <div className="section-right">
-            {player1Figure && (
-              <img
-                className={"figure-" + player1Data.color}
-                src={player1Figure}
-                alt="figure"
-              />
-            )}
+        )}
+        {isDraw && (
+          <div className="pop-up">
+            <h1>Draw!</h1>
           </div>
-        </div>
-        <div className="controller">
-          <button
-            className="game-button"
-            data-toggle="tooltip"
-            data-placement="bottom"
-            title="Start a new game"
-          >
-            <img src={newGame} alt="new game" onClick={handleNewGame} />
-          </button>
-          <button
-            className="game-button"
-            data-toggle="tooltip"
-            data-placement="bottom"
-            title="Exit game"
-          >
-            <Link to="/">
-              <img src={endGame} alt="end game" />
-            </Link>
-          </button>
-        </div>
-        <div
-          className={`player-container ${
-            isActivePlayer2 ? "active-player" : ""
-          }`}
-        >
-          <div className="section-left">
-            <p>{player2Data.email}</p>
-            <h2>{player2Data.name}</h2>
-          </div>
-          <div className="section-right">
-            {player2Figure && (
-              <img
-                className={"figure-" + player2Data.color}
-                src={player2Figure}
-                alt="figure"
-              />
-            )}
-          </div>
+        )}
+        <div className="GameBoard">
+          {grid.map((row, rowIndex) => (
+            <div className="row" key={rowIndex}>
+              {row.map((cell, columnIndex) => (
+                <Square
+                  key={`${rowIndex}-${columnIndex}`}
+                  playersTurn={playersTurn}
+                  handleChangePlayersTurn={handleChangePlayersTurn}
+                  handleSquareClick={() =>
+                    handleSquareClick(rowIndex, columnIndex)
+                  }
+                  isGameOver={isGameOver}
+                  isWinningElement={grid[rowIndex][columnIndex] !== 0}
+                  player1Data={player1Data}
+                  player2Data={player2Data}
+                  player1Figure={player1Figure}
+                  player2Figure={player2Figure}
+                  resetSquare={resetSquare}
+                />
+              ))}
+            </div>
+          ))}
         </div>
       </div>
-      {isWinner && (
-        <div className="pop-up">
-          <h1>{isWinner} won!</h1>
-        </div>
-      )}
-      <div className="GameBoard">
-        {grid.map((row, rowIndex) => (
-          <div className="row" key={rowIndex}>
-            {row.map((cell, columnIndex) => (
-              <Square
-                key={`${rowIndex}-${columnIndex}`}
-                playersTurn={playersTurn}
-                handleChangePlayersTurn={handleChangePlayersTurn}
-                handleSquareClick={() =>
-                  handleSquareClick(rowIndex, columnIndex)
-                }
-                isGameOver={isGameOver}
-                isWinningElement={grid[rowIndex][columnIndex] !== 0}
-                player1Data={player1Data}
-                player2Data={player2Data}
-                player1Figure={player1Figure}
-                player2Figure={player2Figure}
-                resetSquare={resetSquare}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
+    </>
   );
 }
 

@@ -22,6 +22,7 @@ function PlayerConfig({
   const [isLoading, setIsLoading] = useState(true);
   const [isNameValid, setIsNameValid] = useState(true);
 
+  // Loading animation with timeout
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
@@ -32,6 +33,7 @@ function PlayerConfig({
     onLogoutPlayer();
   };
 
+  // Changing player name, color, figure, status with some validation
   const handleNameChange = (event) => {
     const newName = event.target.value;
     onNameChange(newName);

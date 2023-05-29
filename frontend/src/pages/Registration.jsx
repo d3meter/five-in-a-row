@@ -17,6 +17,7 @@ function Registration() {
 
   const navigate = useNavigate();
 
+  // Registartion with forwarding to the home page and error handling
   const handleReg = async () => {
     const password = passwordRef.current.value;
     try {
@@ -30,11 +31,14 @@ function Registration() {
     }
   };
 
+  // Show/hide password
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+  // Show/hide password confirm
   const handleClickShowPasswordConfirm = () =>
     setShowPasswordConfirm((show) => !show);
 
+  // Check inputs with error handling before submit
   const checkData = () => {
     if (passwordRef.current.value.length < 6) {
       setErrorMessage("Password must be at least 6 characters!");
@@ -47,6 +51,7 @@ function Registration() {
     }
   };
 
+  // Submit with calling check data
   const handleFormSubmit = (event) => {
     event.preventDefault();
     checkData();
