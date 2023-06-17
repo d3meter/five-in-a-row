@@ -1,0 +1,25 @@
+  {
+    "boardsizes": [
+      10,
+      15,
+      19,
+      24
+    ],
+    "figures": [
+      "triangle",
+      "cross",
+      "circle",
+      "star",
+      "square"
+    ],
+    "colors": [
+      "orange",
+      "purple",
+      "green",
+      "yellow",
+      "blue",
+      "pink",
+      "red"
+    ]
+  }
+

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./css/PlayerConfig.css";
 
+import gameOptions from "../admin/gameOptions.json";
 import miniLoader from "../imgs/miniloader.gif";
 
 function PlayerConfig({
@@ -110,11 +111,11 @@ function PlayerConfig({
                     id="figure"
                     value={figureOfUser}
                   >
-                    <option value="triangle">Triangle</option>
-                    <option value="cross">Cross</option>
-                    <option value="circle">Circle</option>
-                    <option value="star">Star</option>
-                    <option value="square">Square</option>
+                    {gameOptions.figures.map((figure) => (
+                      <option key={figure} value={figure}>
+                        {figure.charAt(0).toUpperCase() + figure.slice(1)}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -130,13 +131,11 @@ function PlayerConfig({
                     id="color"
                     value={colorOfUser}
                   >
-                    <option value="orange">orange</option>
-                    <option value="purple">purple</option>
-                    <option value="green">green</option>
-                    <option value="yellow">yellow</option>
-                    <option value="blue">blue</option>
-                    <option value="pink">pink</option>
-                    <option value="red">red</option>
+                    {gameOptions.colors.map((color) => (
+                      <option key={color} value={color}>
+                        {color.charAt(0).toUpperCase() + color.slice(1)}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>

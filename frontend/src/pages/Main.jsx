@@ -11,6 +11,7 @@ import {
   updatePlayer2Data,
   updateBoardSize,
 } from "../admin/gameData";
+import gameOptions from "../admin/gameOptions.json";
 import Login from "../components/Login";
 import PlayerConfig from "../components/PlayerConfig";
 import Loader from "../components/Loader";
@@ -96,7 +97,7 @@ function Main({ isLoading }) {
     setIsDisabled(!(isReadyUser1 && isReadyUser2));
   }, [isReadyUser1, isReadyUser2]);
 
-  // Load players data from localstorage if available 
+  // Load players data from localstorage if available
   const loadPlayersData = () => {
     const storedPlayer1Data = JSON.parse(localStorage.getItem("player1Data"));
     if (storedPlayer1Data) {
@@ -394,10 +395,11 @@ function Main({ isLoading }) {
                     id="board-size"
                     value={selectedBoardSize}
                   >
-                    <option value="10">10 x 10</option>
-                    <option value="15">15 x 15</option>
-                    <option value="19">19 x 19</option>
-                    <option value="24">24 x 24</option>
+                    {gameOptions.boardsizes.map((size) => (
+                      <option key={size} value={size.toString()}>
+                        {size} x {size}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <Link
