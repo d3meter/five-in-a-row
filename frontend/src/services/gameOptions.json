@@ -1,0 +1,16 @@
+{
+  "boardsizes": {
+    "options": [10, 15, 19, 24],
+    "default": 10
+  },
+  "figures": {
+    "options": ["triangle", "cross", "circle", "star", "square"],
+    "defaultP1": "circle",
+    "defaultP2": "cross"
+  },
+  "colors": {
+    "options": ["orange", "purple", "green", "yellow", "blue", "pink", "red"],
+    "defaultP1": "red",
+    "defaultP2": "blue"
+  }
+}

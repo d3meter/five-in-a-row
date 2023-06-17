@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./css/PlayerConfig.css";
 
-import gameOptions from "../admin/gameOptions.json";
+import gameOptions from "../services/gameOptions.json";
 import miniLoader from "../imgs/miniloader.gif";
 
 function PlayerConfig({
@@ -111,7 +111,7 @@ function PlayerConfig({
                     id="figure"
                     value={figureOfUser}
                   >
-                    {gameOptions.figures.map((figure) => (
+                    {gameOptions.figures.options.map((figure) => (
                       <option key={figure} value={figure}>
                         {figure.charAt(0).toUpperCase() + figure.slice(1)}
                       </option>
@@ -131,7 +131,7 @@ function PlayerConfig({
                     id="color"
                     value={colorOfUser}
                   >
-                    {gameOptions.colors.map((color) => (
+                    {gameOptions.colors.options.map((color) => (
                       <option key={color} value={color}>
                         {color.charAt(0).toUpperCase() + color.slice(1)}
                       </option>

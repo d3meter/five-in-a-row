@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import "./css/Registration.css";
 
 import { useNavigate } from "react-router-dom";
-import { registration } from "../admin/auth";
+import { registration } from "../services/auth.tsx";
 import miniLoader from "../imgs/miniloader.gif";
 
 function Registration() {
