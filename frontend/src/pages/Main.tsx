@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import "./css/Main.css";
 
 import { Link } from "react-router-dom";
 
 import { logOut, login } from "../services/auth";
-import { PlayerState } from "../services/Player";
+import Player, { PlayerState } from "../services/Player";
+import Board, { BoardState } from "../services/Board";
 import gameOptions from "../services/gameOptions.json";
 
 import Login from "../components/Login";
@@ -30,6 +31,10 @@ const Main: React.FC<MainProps> = ({ isLoading }) => {
   const [isReadyPlayer2, setIsReadyPlayer2] = useState<boolean>(false);
   const [errorMessageP2, setErrorMessageP2] = useState<string | null>(null);
 
+  const [selectedBoardSize, setSelectedBoardSize] = useState<number>(
+    gameOptions.boardsizes.default
+  );
+
   useEffect(() => {
     // Check if no user logged in
     setIsLoggedOut(!(player1 && player2));
@@ -50,6 +55,15 @@ const Main: React.FC<MainProps> = ({ isLoading }) => {
     if (player2Data) {
       const playerData = JSON.parse(player2Data);
       setPlayer2(playerData);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Check if board size is available in local storage
+    const storedBoardSize = localStorage.getItem("boardSize");
+    if (storedBoardSize) {
+      const parsedBoardSize = parseInt(storedBoardSize);
+      setSelectedBoardSize(parsedBoardSize);
     }
   }, []);
 
@@ -112,36 +126,33 @@ const Main: React.FC<MainProps> = ({ isLoading }) => {
     playerNumber === 1 ? setIsReadyPlayer1(false) : setIsReadyPlayer2(false);
   };
 
+  const handleBoardSizeChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const newSize = parseInt(event.target.value);
+    setSelectedBoardSize(newSize);
+  };
+
   // Play game and update all the necessary data, if it is disabled prevent forwarding
-  /*   const handleGoButtonClick = (event) => {
+  const handleGoButtonClick = (event) => {
     if (isDisabled) {
       event.preventDefault();
       return;
     }
 
-    const player1Data: Player = {
-      email: user1.email,
-      name: nameOfUser1,
-      color: colorOfUser1,
-      figure: figureOfUser1,
-    };
+    const player1Name = player1?.name || "";
+    const player1Color = player1?.color || "";
+    const player1Figure = player1?.figure || "";
 
-    const player2Data: Player = {
-      email: user2.email,
-      name: nameOfUser2,
-      color: colorOfUser2,
-      figure: figureOfUser2,
-    };
+    Player.updatePlayerData(1, player1Name, player1Color, player1Figure);
+
+    const player2Name = player2?.name || "";
+    const player2Color = player2?.color || "";
+    const player2Figure = player2?.figure || "";
+
+    Player.updatePlayerData(2, player2Name, player2Color, player2Figure);
 
     const boardSize = selectedBoardSize;
-
-    updatePlayer1Data(player1Data);
-    updatePlayer2Data(player2Data);
-    updateBoardSize(boardSize);
-
-    localStorage.setItem("player1ImgSrc", JSON.stringify(imageSrcUser1));
-    localStorage.setItem("player2ImgSrc", JSON.stringify(imageSrcUser2));
-  }; */
+    Board.updateBoardSize(boardSize);
+  };
 
   return (
     <div className="Main">
@@ -221,7 +232,7 @@ const Main: React.FC<MainProps> = ({ isLoading }) => {
               </div>
             </div>
             <hr />
-            {/*            {isLoggedOut ? (
+            {isLoggedOut ? (
               <div
                 className={`row text-center collapse-section ${
                   !isLoggedOut ? "hide" : ""
@@ -238,9 +249,7 @@ const Main: React.FC<MainProps> = ({ isLoading }) => {
                 <div className="row d-flex justify-content-center pb-2 w-100">
                   <select
                     className="bs-select"
-                    onChange={(event) =>
-                      setSelectedBoardSize(event.target.value)
-                    }
+                    onChange={handleBoardSizeChange}
                     name="board-size"
                     id="board-size"
                     value={selectedBoardSize}
@@ -267,7 +276,7 @@ const Main: React.FC<MainProps> = ({ isLoading }) => {
                   <img src={goButton} alt="GO" />
                 </Link>
               </div>
-            )} */}
+            )}
           </div>
         </>
       )}
