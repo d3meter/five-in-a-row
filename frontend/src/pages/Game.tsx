@@ -185,7 +185,6 @@ const Game: React.FC = () => {
 
     // Update the grid state
     setGrid(updatedGrid);
-    console.log(updatedGrid);
 
     checkWin(updatedGrid, rowIndex, columnIndex, playersTurn);
   };
