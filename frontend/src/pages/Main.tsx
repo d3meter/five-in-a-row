@@ -3,7 +3,8 @@ import "./css/Main.css";
 
 import { Link } from "react-router-dom";
 
-import Player from "../services/Player";
+import { logOut, login } from "../services/auth";
+import { PlayerState } from "../services/Player";
 import gameOptions from "../services/gameOptions.json";
 
 import Login from "../components/Login";
@@ -21,17 +22,13 @@ const Main: React.FC<MainProps> = ({ isLoading }) => {
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const [isLoggedOut, setIsLoggedOut] = useState<boolean>(false);
 
-  const [player1, setPlayer1] = useState<Player | null>(null);
-  const [errorMessagePlayer1, setErrorMessagePlayer1] = useState<string | null>(
-    null
-  );
+  const [player1, setPlayer1] = useState<PlayerState | null>(null);
   const [isReadyPlayer1, setIsReadyPlayer1] = useState<boolean>(false);
+  const [errorMessageP1, setErrorMessageP1] = useState<string | null>(null);
 
-  const [player2, setPlayer2] = useState<Player | null>(null);
-  const [errorMessagePlayer2, setErrorMessagePlayer2] = useState<string | null>(
-    null
-  );
+  const [player2, setPlayer2] = useState<PlayerState | null>(null);
   const [isReadyPlayer2, setIsReadyPlayer2] = useState<boolean>(false);
+  const [errorMessageP2, setErrorMessageP2] = useState<string | null>(null);
 
   useEffect(() => {
     // Check if no user logged in
@@ -39,7 +36,7 @@ const Main: React.FC<MainProps> = ({ isLoading }) => {
   }, [player1, player2]);
 
   useEffect(() => {
-    // Check if user1 data is available in local storage
+    // Check if player1 data is available in local storage
     const player1Data = localStorage.getItem("player1Data");
     if (player1Data) {
       const playerData = JSON.parse(player1Data);
@@ -48,7 +45,7 @@ const Main: React.FC<MainProps> = ({ isLoading }) => {
   }, []);
 
   useEffect(() => {
-    // Check if user1 data is available in local storage
+    // Check if player2 data is available in local storage
     const player2Data = localStorage.getItem("player2Data");
     if (player2Data) {
       const playerData = JSON.parse(player2Data);
@@ -61,8 +58,62 @@ const Main: React.FC<MainProps> = ({ isLoading }) => {
     setIsDisabled(!(isReadyPlayer1 && isReadyPlayer2));
   }, [isReadyPlayer1, isReadyPlayer2]);
 
+  const handleLogout = (playerNumber) => {
+    logOut(playerNumber);
+    playerNumber === 1 ? setPlayer1(null) : setPlayer2(null);
+  };
+
+  const handleLogin = async (email, password, playerNumber) => {
+    const response = await login(email, password, playerNumber);
+    playerNumber === 1
+      ? setPlayer1(response.email)
+      : setPlayer2(response.email);
+  };
+
+  const handleStatusChange = (playerData) => {
+    const errorMessage = "Properties must be different!";
+    if (playerData.number === 1) {
+      if (
+        !isReadyPlayer2 ||
+        (playerData.name !== player2?.name &&
+          playerData.color !== player2?.color &&
+          playerData.figure !== player2?.figure)
+      ) {
+        const newData = { ...player1, ...playerData };
+        setPlayer1(newData);
+        setIsReadyPlayer1((prevState) => !prevState);
+      } else {
+        setErrorMessageP1(errorMessage);
+        setTimeout(() => {
+          setErrorMessageP1(null);
+        }, 2000);
+      }
+    }
+    if (playerData.number === 2) {
+      if (
+        !isReadyPlayer1 ||
+        (playerData.name !== player1?.name &&
+          playerData.color !== player1?.color &&
+          playerData.figure !== player1?.figure)
+      ) {
+        const newData = { ...player2, ...playerData };
+        setPlayer2(newData);
+        setIsReadyPlayer2((prevState) => !prevState);
+      } else {
+        setErrorMessageP2(errorMessage);
+        setTimeout(() => {
+          setErrorMessageP2(null);
+        }, 2000);
+      }
+    }
+  };
+
+  const handleStatusReset = (playerNumber) => {
+    playerNumber === 1 ? setIsReadyPlayer1(false) : setIsReadyPlayer2(false);
+  };
+
   // Play game and update all the necessary data, if it is disabled prevent forwarding
-/*   const handleGoButtonClick = (event) => {
+  /*   const handleGoButtonClick = (event) => {
     if (isDisabled) {
       event.preventDefault();
       return;
@@ -136,39 +187,41 @@ const Main: React.FC<MainProps> = ({ isLoading }) => {
                 {!!player1 ? (
                   <>
                     <PlayerConfig
+                      playerNumber={1}
                       isReadyPlayer={isReadyPlayer1}
-                      errorMessage={errorMessagePlayer1}
-                      setErrorMessagePlayer={setErrorMessagePlayer1}
+                      onLogout={handleLogout}
+                      onStatusChange={handleStatusChange}
+                      errorMessage={errorMessageP1}
+                      onStatusReset={handleStatusReset}
                     />
                   </>
                 ) : (
                   <>
                     <h1>Player 1</h1>
-                    <Login
-                      playerNumber={1}
-                    />
+                    <Login playerNumber={1} onLogin={handleLogin} />
                   </>
                 )}
               </div>
               <div className="players-card col-md-6 col-lg-4 p-4 px-5">
                 {!!player2 ? (
                   <PlayerConfig
+                    playerNumber={2}
                     isReadyPlayer={isReadyPlayer2}
-                    errorMessage={errorMessagePlayer2}
-                    setErrorMessagePlayer={setErrorMessagePlayer2}
+                    onLogout={handleLogout}
+                    onStatusChange={handleStatusChange}
+                    errorMessage={errorMessageP2}
+                    onStatusReset={handleStatusReset}
                   />
                 ) : (
                   <>
                     <h1>Player 2</h1>
-                    <Login
-                      playerNumber={2}
-                    />
+                    <Login playerNumber={2} onLogin={handleLogin} />
                   </>
                 )}
               </div>
             </div>
             <hr />
- {/*            {isLoggedOut ? (
+            {/*            {isLoggedOut ? (
               <div
                 className={`row text-center collapse-section ${
                   !isLoggedOut ? "hide" : ""

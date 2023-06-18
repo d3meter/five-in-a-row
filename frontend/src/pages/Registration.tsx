@@ -2,37 +2,40 @@ import React, { useState, useRef } from "react";
 import "./css/Registration.css";
 
 import { useNavigate } from "react-router-dom";
-import { registration } from "../services/auth.tsx";
+import { registration } from "../services/auth";
 import miniLoader from "../imgs/miniloader.gif";
 
-function Registration() {
+const Registration: React.FC = () => {
   const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [showPasswordConfrim, setShowPasswordConfirm] = useState(false);
-  const passwordRef = useRef(null);
-  const passwordConfirmRef = useRef(null);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
   const [finished, setFinished] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
-  // Registartion with forwarding to the home page and error handling
+  // Registration with forwarding to the home page and error handling
   const handleReg = async () => {
-    const password = passwordRef.current.value;
-    try {
-      await registration(email, password);
-      setFinished(true);
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
-    } catch (error) {
-      setErrorMessage("Email already in use!");
+    const password = passwordRef.current?.value;
+    if (email && password) {
+      try {
+        await registration(email, password);
+        setFinished(true);
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      } catch (error) {
+        setErrorMessage("Email already in use!");
+      }
     }
   };
 
   // Show/hide password
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPassword = () =>
+    setShowPassword((show) => !show);
 
   // Show/hide password confirm
   const handleClickShowPasswordConfirm = () =>
@@ -40,9 +43,11 @@ function Registration() {
 
   // Check inputs with error handling before submit
   const checkData = () => {
-    if (passwordRef.current.value.length < 6) {
+    if (passwordRef.current?.value.length! < 6) {
       setErrorMessage("Password must be at least 6 characters!");
-    } else if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+    } else if (
+      passwordRef.current?.value !== passwordConfirmRef.current?.value
+    ) {
       setErrorMessage("Passwords must match!");
     } else if (!email.includes("@") || !email.includes(".")) {
       setErrorMessage("Invalid email format!");
@@ -52,7 +57,7 @@ function Registration() {
   };
 
   // Submit with calling check data
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     checkData();
   };
@@ -98,7 +103,7 @@ function Registration() {
               <div className="form-group row w-100 m-0">
                 <div className="input-group p-0">
                   <input
-                    type={showPasswordConfrim ? "text" : "password"}
+                    type={showPasswordConfirm ? "text" : "password"}
                     ref={passwordConfirmRef}
                     className="form-control"
                     id="inputPassword3"

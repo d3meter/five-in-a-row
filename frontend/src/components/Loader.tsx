@@ -3,7 +3,7 @@ import "./css/Loader.css";
 
 import loaderAnim from "../imgs/tic-tac-loader.gif";
 
-function Loader() {
+const Loader: React.FC = () => {
   return (
     <div className="Loader">
       <h1>Loading...</h1>

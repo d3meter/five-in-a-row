@@ -1,7 +1,7 @@
 import { Component } from "react";
 import gameOptions from "./gameOptions.json";
 
-interface PlayerState {
+export interface PlayerState {
   number: number;
   name: string;
   email?: string;
@@ -29,7 +29,7 @@ class Player extends Component<PlayerState> {
 
     const initPlayerState: PlayerState = {
       number: number,
-      name: `player${number}`,
+      name: `Player${number}`,
       email: email,
       color: color,
       figure: figure,

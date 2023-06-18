@@ -32,7 +32,10 @@ export const login = async function (
     );
     const user = userCredential.user;
     const player = Player.createPlayer(userNumber, email);
-    localStorage.setItem(`player${userNumber}Data`, JSON.stringify(player.props));
+    localStorage.setItem(
+      `player${userNumber}Data`,
+      JSON.stringify(player.props)
+    );
     return user;
   } catch (error) {
     const errorCode = error.code;
@@ -63,9 +66,7 @@ export const registration = async function (
   }
 };
 
-export const logOut = async function (userNumber: string): Promise<void> {
+export const logOut = async function (userNumber: number): Promise<void> {
   await signOut(auth);
-  localStorage.removeItem(`user${userNumber}`);
   localStorage.removeItem(`player${userNumber}Data`);
-  localStorage.removeItem(`player${userNumber}ImgSrc`);
 };

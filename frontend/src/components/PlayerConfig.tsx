@@ -1,27 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import "./css/PlayerConfig.css";
 
 import gameOptions from "../services/gameOptions.json";
 import miniLoader from "../imgs/miniloader.gif";
+import { PlayerState } from "../services/Player";
 
-function PlayerConfig({
-  user,
-  nameOfUser,
-  colorOfUser,
-  figureOfUser,
-  onLogoutPlayer,
-  onNameChange,
-  onColorChange,
-  onFigureChange,
+interface PlayerConfigProps {
+  isReadyPlayer: boolean;
+  playerNumber: number;
+  onLogout;
+  onStatusChange;
+  errorMessage: string | null;
+  onStatusReset;
+}
+
+const PlayerConfig: React.FC<PlayerConfigProps> = ({
+  isReadyPlayer,
+  playerNumber,
+  onLogout,
   onStatusChange,
-  isReadyUser,
-  imgClassUser,
-  imageSrcUser,
   errorMessage,
-  setErrorMessagePlayer,
-}) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isNameValid, setIsNameValid] = useState(true);
+  onStatusReset,
+}) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isNameValid, setIsNameValid] = useState<boolean>(true);
+
+  const [playerData, setPlayerData] = useState<PlayerState | null>(null);
+
+  const [playerName, setPlayerName] = useState<string>("");
+  const [playerFigure, setPlayerFigure] = useState<string>("");
+  const [playerColor, setPlayerColor] = useState<string>("");
 
   // Loading animation with timeout
   useEffect(() => {
@@ -30,30 +38,53 @@ function PlayerConfig({
     }, 1200);
   });
 
-  const handleLogout = () => {
-    onLogoutPlayer();
-  };
+  useEffect(() => {
+    const storedPlayerData = JSON.parse(
+      localStorage.getItem(`player${playerNumber}Data`) || "null"
+    );
+    setPlayerData(storedPlayerData);
+    setPlayerName(storedPlayerData.name);
+    setPlayerFigure(storedPlayerData.figure);
+    setPlayerColor(storedPlayerData.color);
+  }, []);
 
-  // Changing player name, color, figure, status with some validation
-  const handleNameChange = (event) => {
+  const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newName = event.target.value;
-    onNameChange(newName);
     setIsNameValid(newName.trim().length >= 3);
+    setPlayerName(newName);
+    handleStatusReset(playerNumber);
   };
 
-  const handleColorChange = (event) => {
-    onColorChange(event.target.value);
-    setErrorMessagePlayer(null);
+  const handleFigureChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const newFigure = event.target.value;
+    setPlayerFigure(newFigure);
+    handleStatusReset(playerNumber);
   };
 
-  const handleFigureChange = (event) => {
-    onFigureChange(event.target.value);
-    setErrorMessagePlayer(null);
+  const handleColorChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const newColor = event.target.value;
+    setPlayerColor(newColor);
+    handleStatusReset(playerNumber);
+  };
+
+  const handleLogout = (playerNumber) => {
+    onLogout(playerNumber);
+    handleStatusReset(playerNumber);
+  };
+
+  const handleStatusReset = (playerNumber) => {
+    onStatusReset(playerNumber);
   };
 
   const handleStatusChange = () => {
     if (isNameValid) {
-      onStatusChange();
+      const playerData: PlayerState = {
+        number: playerNumber,
+        name: playerName,
+        color: playerColor,
+        figure: playerFigure,
+      };
+      onStatusChange(playerData);
     }
   };
 
@@ -65,19 +96,17 @@ function PlayerConfig({
         </div>
       ) : (
         <>
-          <h1 className="text-center">{isNameValid ? nameOfUser : "..."}</h1>
+          <h1 className="text-center">{isNameValid ? playerName : "..."}</h1>
           <div className="row gap-2 d-flex justify-content-center">
             <div className="row text-center">
-              <p className="m-0">{user.email}</p>
+              <p className="m-0">{playerData?.email}</p>
             </div>
             <div className="figure-container row justify-content-center">
-              {imageSrcUser && (
-                <img
-                  className={"figure " + imgClassUser}
-                  src={imageSrcUser}
-                  alt="figure"
-                />
-              )}
+              <img
+                className={`figure figure-${playerColor}`}
+                src={require(`../imgs/figures/${playerFigure}.png`)}
+                alt="figure"
+              />
             </div>
             <form className="px-4 pt-2 d-flex flex-column gap-2">
               <div className="form-group row ">
@@ -93,7 +122,7 @@ function PlayerConfig({
                     type="text"
                     placeholder="name"
                     id="name"
-                    value={nameOfUser}
+                    value={playerName}
                     maxLength={8}
                     minLength={3}
                   />
@@ -109,7 +138,7 @@ function PlayerConfig({
                     onChange={handleFigureChange}
                     name="figure"
                     id="figure"
-                    value={figureOfUser}
+                    value={playerFigure}
                   >
                     {gameOptions.figures.options.map((figure) => (
                       <option key={figure} value={figure}>
@@ -129,7 +158,7 @@ function PlayerConfig({
                     onChange={handleColorChange}
                     name="color"
                     id="color"
-                    value={colorOfUser}
+                    value={playerColor}
                   >
                     {gameOptions.colors.options.map((color) => (
                       <option key={color} value={color}>
@@ -145,7 +174,9 @@ function PlayerConfig({
           <div className="w-40 d-flex justify-content-center">
             <button
               className={
-                isReadyUser ? "btn btn-warning px-4" : "btn btn-secondary px-4"
+                isReadyPlayer
+                  ? "btn btn-warning px-4"
+                  : "btn btn-secondary px-4"
               }
               onClick={handleStatusChange}
             >
@@ -157,13 +188,16 @@ function PlayerConfig({
               {isNameValid ? errorMessage : "Invalid name format!"}
             </p>
           )}
-          <button className="logout-btn btn btn-dark" onClick={handleLogout}>
+          <button
+            className="logout-btn btn btn-dark"
+            onClick={() => handleLogout(playerNumber)}
+          >
             Logout
           </button>
         </>
       )}
     </div>
   );
-}
+};
 
 export default PlayerConfig;
