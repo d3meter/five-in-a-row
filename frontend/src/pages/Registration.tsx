@@ -88,7 +88,7 @@ const Registration: React.FC = () => {
                     type={showPassword ? "text" : "password"}
                     ref={passwordRef}
                     className="form-control"
-                    id="inputPassword3"
+                    id="inputPassword"
                     placeholder="Password"
                   />
                   <button
@@ -106,7 +106,7 @@ const Registration: React.FC = () => {
                     type={showPasswordConfirm ? "text" : "password"}
                     ref={passwordConfirmRef}
                     className="form-control"
-                    id="inputPassword3"
+                    id="inputPasswordConf"
                     placeholder="Password confirm"
                   />
                   <button

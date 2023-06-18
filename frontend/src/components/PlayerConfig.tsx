@@ -8,10 +8,10 @@ import { PlayerState } from "../services/Player";
 interface PlayerConfigProps {
   isReadyPlayer: boolean;
   playerNumber: number;
-  onLogout;
-  onStatusChange;
+  onLogout: (playerNumber: number) => void;
+  onStatusChange: (playerData: any) => void;
   errorMessage: string | null;
-  onStatusReset;
+  onStatusReset: (playerNumber: number) => void;
 }
 
 const PlayerConfig: React.FC<PlayerConfigProps> = ({
@@ -67,12 +67,12 @@ const PlayerConfig: React.FC<PlayerConfigProps> = ({
     handleStatusReset(playerNumber);
   };
 
-  const handleLogout = (playerNumber) => {
+  const handleLogout = (playerNumber: number) => {
     onLogout(playerNumber);
     handleStatusReset(playerNumber);
   };
 
-  const handleStatusReset = (playerNumber) => {
+  const handleStatusReset = (playerNumber: number) => {
     onStatusReset(playerNumber);
   };
 

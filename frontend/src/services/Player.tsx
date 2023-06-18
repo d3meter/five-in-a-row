@@ -9,6 +9,25 @@ export interface PlayerState {
   figure: string;
 }
 
+type GameOptions = {
+  boardsizes: {
+    options: number[];
+    default: number;
+  };
+  figures: {
+    options: string[];
+    defaultP1: string;
+    defaultP2: string;
+  };
+  colors: {
+    options: string[];
+    defaultP1: string;
+    defaultP2: string;
+  };
+};
+
+const gameOptionsData: GameOptions = gameOptions as GameOptions;
+
 class Player extends Component<PlayerState> {
   constructor(props: PlayerState);
   constructor(number: number, email: string);
@@ -22,10 +41,17 @@ class Player extends Component<PlayerState> {
   }
 
   static createPlayer(number: number, email: string): Player {
-    const colorKey = `defaultP${number}`;
-    const figureKey = `defaultP${number}`;
-    const color = gameOptions.colors[colorKey];
-    const figure = gameOptions.figures[figureKey];
+    let color = "";
+    let figure = "";
+
+    if (number === 1) {
+      color = gameOptionsData.colors.defaultP1;
+      figure = gameOptionsData.figures.defaultP1;
+    }
+    if (number === 2) {
+      color = gameOptionsData.colors.defaultP2;
+      figure = gameOptionsData.figures.defaultP2;
+    }
 
     const initPlayerState: PlayerState = {
       number: number,

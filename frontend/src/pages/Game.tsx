@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from "react";
 import "./css/Game.css";
 
+import { PlayerState } from "../services/Player";
+
 import Square from "../components/Square";
 import Header from "../components/Header";
 
-function Game() {
-  const [player1Data, setPlayer1Data] = useState({});
-  const [player1Figure, setPlayer1Figure] = useState("");
-  const [player2Data, setPlayer2Data] = useState({});
-  const [player2Figure, setPlayer2Figure] = useState("");
-  const [playersTurn, setPlayersTurn] = useState("");
-  const [isGameOver, setIsGameOver] = useState(false);
-  const [grid, setGrid] = useState([]);
-  const [isWinner, setIsWinner] = useState(null);
-  const [resetSquare, setResetSquare] = useState(false);
-  const [isDraw, setIsDraw] = useState(false);
+const Game: React.FC = () => {
+  const [player1Data, setPlayer1Data] = useState<PlayerState | null>(null);
+  const [player2Data, setPlayer2Data] = useState<PlayerState | null>(null);
+  const [playersTurn, setPlayersTurn] = useState<string>("");
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
+  const [grid, setGrid] = useState<number[][]>([]);
+  const [isWinner, setIsWinner] = useState<string | null>(null);
+  const [resetSquare, setResetSquare] = useState<boolean>(false);
+  const [isDraw, setIsDraw] = useState<boolean>(false);
 
   // Check active player and winner
   const isActivePlayer1 =
-    (playersTurn === player1Data.name && !isGameOver) ||
-    isWinner === player1Data.name;
+    (playersTurn === player1Data?.name && !isGameOver) ||
+    isWinner === player1Data?.name;
   const isActivePlayer2 =
-    (playersTurn === player2Data.name && !isGameOver) ||
-    isWinner === player2Data.name;
+    (playersTurn === player2Data?.name && !isGameOver) ||
+    isWinner === player2Data?.name;
 
   // Reset grid
   useEffect(() => {
@@ -31,22 +31,23 @@ function Game() {
 
   // Load players' and board's data from local storage
   useEffect(() => {
-    const storedPlayer1Data = JSON.parse(localStorage.getItem("player1Data"));
+    const storedPlayer1Data = JSON.parse(
+      localStorage.getItem("player1Data") || "{}"
+    );
     setPlayer1Data(storedPlayer1Data);
 
-    const figureSrcP1 = JSON.parse(localStorage.getItem("player1ImgSrc"));
-    setPlayer1Figure(figureSrcP1);
-
-    const storedPlayer2Data = JSON.parse(localStorage.getItem("player2Data"));
+    const storedPlayer2Data = JSON.parse(
+      localStorage.getItem("player2Data") || "{}"
+    );
     setPlayer2Data(storedPlayer2Data);
-
-    const figureSrcP2 = JSON.parse(localStorage.getItem("player2ImgSrc"));
-    setPlayer2Figure(figureSrcP2);
   }, []);
 
   // Set P1 as start player
   useEffect(() => {
-    setPlayersTurn(player1Data.name);
+    const player1Name = player1Data?.name;
+    if (player1Name) {
+      setPlayersTurn(player1Name);
+    }
   }, [player1Data]);
 
   // Render grid based on the board size filled all matrix elements with 0 value
@@ -56,20 +57,25 @@ function Game() {
       const parsedBoardSize = parseInt(storedBoardSize);
 
       const initialGrid = Array(parsedBoardSize)
-        .fill()
+        .fill(0)
         .map(() => Array(parsedBoardSize).fill(0));
       setGrid(initialGrid);
     }
   };
 
   // Check if 5 in a row in all directions started from the clicked square or no more empty square available (draw)
-  const checkWin = (grid, rowIndex, columnIndex, playersTurn) => {
+  const checkWin = (
+    grid: number[][],
+    rowIndex: number,
+    columnIndex: number,
+    playersTurn: string
+  ) => {
     const startPoint = grid[rowIndex][columnIndex];
     let counterDia1 = 1;
     let counterDia2 = 1;
     let counterHor = 1;
     let counterVer = 1;
-    let winningElements = [[rowIndex, columnIndex]];
+    let winningElements: [number, number][] = [[rowIndex, columnIndex]];
 
     const directions = [
       { dx: -1, dy: -1 }, // top-left
@@ -141,23 +147,29 @@ function Game() {
     }
   };
 
-  // Change style of squares with figures if someone won  
-  const highlightWinningElements = (elements) => {
+  // Change style of squares with figures if someone won
+  const highlightWinningElements = (elements: [number, number][]) => {
     const updatedGrid = [...grid];
     elements.forEach(([row, col]) => {
-      updatedGrid[row][col] = playersTurn === player1Data.name ? 1 : 2;
+      updatedGrid[row][col] = playersTurn === player1Data?.name ? 1 : 2;
     });
     setGrid(updatedGrid);
   };
 
   // Switch player
   const handleChangePlayersTurn = () => {
-    setPlayersTurn((prevPlayersTurn) =>
-      prevPlayersTurn === player1Data.name ? player2Data.name : player1Data.name
-    );
+    setPlayersTurn((prevPlayersTurn) => {
+      if (prevPlayersTurn === player1Data?.name && player2Data?.name) {
+        return player2Data.name;
+      } else if (prevPlayersTurn === player2Data?.name && player1Data?.name) {
+        return player1Data.name;
+      } else {
+        return prevPlayersTurn;
+      }
+    });
   };
 
-  const handleSquareClick = (rowIndex, columnIndex) => {
+  const handleSquareClick = (rowIndex: number, columnIndex: number) => {
     // Check if the square is already clicked or the game is over
     if (grid[rowIndex][columnIndex] !== 0) {
       return;
@@ -165,7 +177,7 @@ function Game() {
 
     // Update the grid value based on the current player
     const updatedGrid = [...grid];
-    if (playersTurn === player1Data.name) {
+    if (playersTurn === player1Data?.name) {
       updatedGrid[rowIndex][columnIndex] = 1;
     } else {
       updatedGrid[rowIndex][columnIndex] = 2;
@@ -178,9 +190,11 @@ function Game() {
     checkWin(updatedGrid, rowIndex, columnIndex, playersTurn);
   };
 
-  // Start new game, set default necessary values
+  // Reset the game
   const handleNewGame = () => {
-    setPlayersTurn(player1Data.name);
+    if (player1Data) {
+      setPlayersTurn(player1Data.name);
+    }
     setIsGameOver(false);
     setIsDraw(false);
     setIsWinner(null);
@@ -195,10 +209,9 @@ function Game() {
         isActivePlayer2={isActivePlayer2}
         player1Data={player1Data}
         player2Data={player2Data}
-        player1Figure={player1Figure}
-        player2Figure={player2Figure}
         handleNewGame={handleNewGame}
       />
+
       <div className="Game">
         {isWinner && (
           <div className="pop-up">
@@ -225,8 +238,6 @@ function Game() {
                   isWinningElement={grid[rowIndex][columnIndex] !== 0}
                   player1Data={player1Data}
                   player2Data={player2Data}
-                  player1Figure={player1Figure}
-                  player2Figure={player2Figure}
                   resetSquare={resetSquare}
                 />
               ))}
@@ -236,6 +247,6 @@ function Game() {
       </div>
     </>
   );
-}
+};
 
 export default Game;

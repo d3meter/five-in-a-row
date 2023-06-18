@@ -3,7 +3,7 @@ import "./css/Login.css";
 
 interface LoginProps {
   playerNumber: number;
-  onLogin
+  onLogin: (email: string, password: string, playerNumber: number) => void;
 }
 
 const Login: React.FC<LoginProps> = ({ playerNumber, onLogin }) => {
@@ -63,7 +63,7 @@ const Login: React.FC<LoginProps> = ({ playerNumber, onLogin }) => {
           <input
             type="email"
             className="form-control"
-            id="inputEmail3"
+            /* id="inputEmail" */
             placeholder="Email"
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               setEmail(event.target.value)
@@ -76,7 +76,7 @@ const Login: React.FC<LoginProps> = ({ playerNumber, onLogin }) => {
               type={showPassword ? "text" : "password"}
               ref={passwordRef}
               className="form-control"
-              id="inputPassword3"
+              /* id="inputPassword3" */
               placeholder="Password"
             />
             <button

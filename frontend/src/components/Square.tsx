@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "./css/Square.css";
 
-function Square({
+interface SquareProps {
+  playersTurn: string;
+  handleChangePlayersTurn: () => void;
+  handleSquareClick: () => void;
+  isGameOver: boolean;
+  isWinningElement: boolean;
+  player1Data: any;
+  player2Data: any;
+  resetSquare: boolean;
+}
+
+const Square: React.FC<SquareProps> = ({
   playersTurn,
   handleChangePlayersTurn,
   handleSquareClick,
@@ -9,15 +20,13 @@ function Square({
   isWinningElement,
   player1Data,
   player2Data,
-  player1Figure,
-  player2Figure,
   resetSquare,
-}) {
+}) => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [imageSrc, setImageSrc] = useState("");
   const [figureColor, setFigureColor] = useState("");
 
-  //Reset single square
+  // Reset single square
   useEffect(() => {
     setIsDisabled(false);
     setImageSrc("");
@@ -28,7 +37,7 @@ function Square({
     handleChangePlayersTurn();
   };
 
-  // Fill/modify single square and call each necessary function after clicking 
+  // Fill/modify single square and call each necessary function after clicking
   const handleClick = () => {
     if (!isGameOver) {
       handleImgSrc();
@@ -42,9 +51,9 @@ function Square({
   // Handle the source of inserted figure depending on the player
   const handleImgSrc = () => {
     if (playersTurn === player1Data.name) {
-      setImageSrc(player1Figure);
+      setImageSrc(player1Data.figure);
     } else {
-      setImageSrc(player2Figure);
+      setImageSrc(player2Data.figure);
     }
   };
 
@@ -63,12 +72,12 @@ function Square({
   };
 
   // Dynamically changing button and square styles depending on their states
-  const buttonStyle =
+  const buttonStyle: React.CSSProperties =
     isDisabled || isGameOver
       ? { backgroundColor: "inherit", filter: "none", cursor: "default" }
       : {};
 
-  const squareStyle =
+  const squareStyle: React.CSSProperties =
     isWinningElement && isGameOver ? { backgroundColor: "#534341" } : {};
 
   return (
@@ -82,10 +91,14 @@ function Square({
       }}
     >
       {imageSrc && (
-        <img className={"figure-" + figureColor} src={imageSrc} alt="figure" />
+        <img
+        className={`figure figure-${figureColor}`}
+        src={require(`../imgs/figures/${imageSrc}.png`)}
+        alt="figure"
+      />
       )}
     </button>
   );
-}
+};
 
 export default Square;

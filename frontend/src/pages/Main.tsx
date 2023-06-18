@@ -1,11 +1,11 @@
-import React, { useEffect, useState, ChangeEvent } from "react";
+import React, { useEffect, useState, ChangeEvent, MouseEvent } from "react";
 import "./css/Main.css";
 
 import { Link } from "react-router-dom";
 
 import { logOut, login } from "../services/auth";
 import Player, { PlayerState } from "../services/Player";
-import Board, { BoardState } from "../services/Board";
+import Board from "../services/Board";
 import gameOptions from "../services/gameOptions.json";
 
 import Login from "../components/Login";
@@ -72,19 +72,23 @@ const Main: React.FC<MainProps> = ({ isLoading }) => {
     setIsDisabled(!(isReadyPlayer1 && isReadyPlayer2));
   }, [isReadyPlayer1, isReadyPlayer2]);
 
-  const handleLogout = (playerNumber) => {
+  const handleLogout = (playerNumber: number) => {
     logOut(playerNumber);
     playerNumber === 1 ? setPlayer1(null) : setPlayer2(null);
   };
 
-  const handleLogin = async (email, password, playerNumber) => {
+  const handleLogin = async (
+    email: string,
+    password: string,
+    playerNumber: number
+  ) => {
     const response = await login(email, password, playerNumber);
     playerNumber === 1
       ? setPlayer1(response.email)
       : setPlayer2(response.email);
   };
 
-  const handleStatusChange = (playerData) => {
+  const handleStatusChange = (playerData: any) => {
     const errorMessage = "Properties must be different!";
     if (playerData.number === 1) {
       if (
@@ -122,7 +126,7 @@ const Main: React.FC<MainProps> = ({ isLoading }) => {
     }
   };
 
-  const handleStatusReset = (playerNumber) => {
+  const handleStatusReset = (playerNumber: number) => {
     playerNumber === 1 ? setIsReadyPlayer1(false) : setIsReadyPlayer2(false);
   };
 
@@ -132,7 +136,7 @@ const Main: React.FC<MainProps> = ({ isLoading }) => {
   };
 
   // Play game and update all the necessary data, if it is disabled prevent forwarding
-  const handleGoButtonClick = (event) => {
+  const handleGoButtonClick = (event: MouseEvent<HTMLAnchorElement>) => {
     if (isDisabled) {
       event.preventDefault();
       return;

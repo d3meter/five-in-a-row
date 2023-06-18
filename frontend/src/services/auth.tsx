@@ -37,7 +37,7 @@ export const login = async function (
       JSON.stringify(player.props)
     );
     return user;
-  } catch (error) {
+  } catch (error: any) {
     const errorCode = error.code;
     const errorMessage = error.message;
     console.log(errorCode, errorMessage);
@@ -58,7 +58,7 @@ export const registration = async function (
     const user = userCredential.user;
     console.log(user);
     return user;
-  } catch (error) {
+  } catch (error: any) {
     const errorCode = error.code;
     const errorMessage = error.message;
     console.log(errorCode, errorMessage);
