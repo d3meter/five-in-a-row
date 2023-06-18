@@ -1,6 +1,10 @@
 ## Five in a row
+
+***Update 18.06.2023***
+I performed a lot of optimization in the logic and data structure. It became a mix of OOP and FP, besides all the components were transformed into TypeScript. The original first react-jsx FP prototype is still available in the branch: "version-fp-jsx".
+
 ***Description***
-The React implementation of the famous and super classic board game. Two players can and must play simultaneously, there is no computer player included. You can register easily or if you don't want to, test accounts are also available to use:
+The React-Typescript implementation of the famous and super classic board game. Two players can and must play simultaneously, there is no computer player included. You can register easily or if you don't want to, test accounts are also available to use:
 
  - email: test1@test.com, password: test1pw
  - email: test2@test.com, password: test2pw
@@ -27,7 +31,9 @@ https://react-five-in-a-row.web.app/
  - Bootstrap
  - React
  - React Router
+	- TypeScript
  - Firebase (auth and hosting)
+	- OOP
 
 ***Start with NPM***
 1. cd frontend
