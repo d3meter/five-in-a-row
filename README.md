@@ -31,9 +31,9 @@ https://react-five-in-a-row.web.app/
  - Bootstrap
  - React
  - React Router
-	- TypeScript
+ - TypeScript
  - Firebase (auth and hosting)
-	- OOP
+ - OOP
 
 ***Start with NPM***
 1. cd frontend
